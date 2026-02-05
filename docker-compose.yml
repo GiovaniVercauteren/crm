@@ -1,0 +1,44 @@
+services:
+  frontend:
+    image: ghcr.io/giovanivercauteren/crm-frontend:latest
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.crm-frontend.rule=Host(`crm.vercauteren.io`)"
+      - "traefik.http.routers.crm-frontend.entrypoints=websecure"
+      - "traefik.http.routers.crm-frontend.tls=true"
+      - "traefik.http.routers.crm-frontend.tls.certresolver=le"
+    networks:
+      - proxy
+  backend:
+    image: ghcr.io/giovanivercauteren/crm-backend:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://crm_user:secure_password@db:5432/crm_db
+    depends_on:
+      - db
+    networks:
+      - internal
+      - proxy
+  db:
+    image: ghcr.io/giovanivercauteren/crm-database:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=crm_db
+      - POSTGRES_USER=crm_user
+      - POSTGRES_PASSWORD=secure_password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
+  proxy:
+    external: true
