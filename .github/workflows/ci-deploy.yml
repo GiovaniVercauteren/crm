@@ -41,7 +41,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./frontend
+          context: "{{defaultContext}}:frontend"
           file: Dockerfile
           push: true
           tags: |
@@ -83,7 +83,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./backend
+          context: "{{defaultContext}}:backend"
           file: Dockerfile
           push: true
           tags: |
@@ -125,7 +125,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./database
+          context: "{{defaultContext}}:database"
           file: Dockerfile
           push: true
           tags: |
