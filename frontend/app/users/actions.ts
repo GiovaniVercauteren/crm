@@ -1,7 +1,7 @@
 "use server";
 
 export async function fetchUsers() {
-  const response = await fetch("http://backend:3000/users");
+  const response = await fetch("http://localhost:4000/users");
   const users = await response.json();
   return users;
 }
@@ -9,7 +9,7 @@ export async function fetchUsers() {
 export async function createUser(formData: FormData) {
   const name = formData.get("name")?.toString();
   const email = formData.get("email")?.toString();
-  await fetch("http://backend:3000/users", {
+  await fetch("http://localhost:4000/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
