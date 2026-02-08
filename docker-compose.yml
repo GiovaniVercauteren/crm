@@ -42,3 +42,6 @@ networks:
     driver: bridge
   proxy:
     external: true
+
+volumes:
+  db_data:
