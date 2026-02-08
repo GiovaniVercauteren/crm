@@ -33,6 +33,8 @@ COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
 # Copy the entrypoint script and make it executable
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
+# Install runtime utilities used by the entrypoint script
+RUN apk add --no-cache postgresql-client
 
 # The entrypoint handles the "Wait -> Migrate -> Start" logic
 ENTRYPOINT ["./entrypoint.sh"]

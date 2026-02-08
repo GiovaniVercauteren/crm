@@ -36,7 +36,30 @@ if [ -z "$DB_HOST" ] || [ -z "$DB_PORT" ]; then
     echo "DB_HOST and/or DB_PORT not set and DB_URL is empty. Waiting will likely fail."
   fi
 fi
-until nc -z $DB_HOST $DB_PORT; do
+check_postgres() {
+  # Prefer pg_isready when available (Postgres client)
+  if command -v pg_isready >/dev/null 2>&1; then
+    pg_isready -h "$DB_HOST" -p "$DB_PORT" >/dev/null 2>&1
+    return $?
+  fi
+
+  # Fallback to nc if available
+  if command -v nc >/dev/null 2>&1; then
+    nc -z "$DB_HOST" "$DB_PORT" >/dev/null 2>&1
+    return $?
+  fi
+
+  # Last-resort: try opening a TCP socket (may not be supported in all shells)
+  if (exec 3<>/dev/tcp/"$DB_HOST"/"$DB_PORT") >/dev/null 2>&1; then
+    exec 3>&-
+    return 0
+  fi
+
+  return 1
+}
+
+echo "Waiting for Postgres to be reachable at $DB_HOST:$DB_PORT..."
+while ! check_postgres; do
   echo "Postgres is unavailable - sleeping"
   sleep 1
 done
