@@ -7,16 +7,15 @@ export async function fetchUsers() {
 }
 
 export async function createUser(formData: FormData) {
-  const name = formData.get("name")?.toString();
-  const email = formData.get("email")?.toString();
   await fetch("http://localhost:4000/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      name,
-      email,
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: formData.get("password"),
     }),
   });
 

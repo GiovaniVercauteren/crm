@@ -6,15 +6,18 @@ import { createUser } from "./actions";
 export default function NewUserForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
+    formData.append("password", password);
     await createUser(formData);
     setName("");
     setEmail("");
+    setPassword("");
   };
 
   return (
@@ -42,6 +45,17 @@ export default function NewUserForm() {
         className="border border-gray-300 rounded-md p-2 w-full"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <br />
+      <label htmlFor="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        className="border border-gray-300 rounded-md p-2 w-full"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         required
       />
       <br />
