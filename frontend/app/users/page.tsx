@@ -1,5 +1,5 @@
-import { GetServerSideProps } from "next";
 import NewUserForm from "./NewUserForm";
+import { fetchUsers } from "./actions";
 
 type User = {
   id: string;
@@ -7,9 +7,10 @@ type User = {
   email: string;
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function Users() {
-  const response = await fetch("http://backend:3000/users");
-  const users: User[] = await response.json();
+  const users = await fetchUsers();
 
   return (
     <div>
