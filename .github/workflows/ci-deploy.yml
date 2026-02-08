@@ -100,14 +100,14 @@ jobs:
           script: |
             cd /containers/${{ needs.build-and-push.outputs.repo_name_lower }}
 
-            cat > .env <<EOL
+            cat > ./.env <<EOF
             POSTGRES_DB=${{ secrets.POSTGRES_DB }}
             POSTGRES_USER=${{ secrets.POSTGRES_USER }}
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             DB_URL=${{ secrets.DB_URL }}
             EOF
 
-            chmod 600 .env
+            chmod 600 ./.env
 
             docker compose pull
             docker compose up -d
