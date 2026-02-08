@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://crm_user:secure_password@db:5432/crm_db
+      - DB_URL=${DB_URL}
     depends_on:
       - db
     networks:
@@ -29,9 +29,9 @@ services:
     image: ghcr.io/giovanivercauteren/crm-database:latest
     restart: unless-stopped
     environment:
-      - POSTGRES_DB=crm_db
-      - POSTGRES_USER=crm_user
-      - POSTGRES_PASSWORD=secure_password
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:

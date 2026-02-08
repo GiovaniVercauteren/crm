@@ -2,12 +2,20 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersService } from './users/user.service';
-import { PrismaService } from './prisma/prisma.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [
+    DatabaseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        url: configService.getOrThrow<string>('DB_URL'),
+      }),
+    }),
+  ],
   controllers: [AppController],
-  providers: [AppService, UsersService, PrismaService],
+  providers: [AppService, UsersService],
 })
 export class AppModule {}

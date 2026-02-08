@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UsersService } from './users/user.service';
-import type { UserModel } from 'generated/prisma/models';
 import { CreateUserDto } from './users/CreateUserDto';
 
 @Controller()
@@ -16,13 +15,14 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('user')
-  async signupUser(@Body() userData: CreateUserDto): Promise<UserModel> {
-    return this.usersService.createUser(userData);
+  @Get('users')
+  getUsers() {
+    return this.usersService.getAllUsers();
   }
 
-  @Get('users')
-  async getAllUsers(): Promise<UserModel[]> {
-    return this.usersService.users({});
+  @Post('users')
+  createUser(@Body() body: CreateUserDto) {
+    const { name, email } = body;
+    return this.usersService.createUser(name, email);
   }
 }
