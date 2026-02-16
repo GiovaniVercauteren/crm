@@ -7,7 +7,7 @@ start:
 
 [working-directory: 'backend']
 _start_backend:
-  npm run start:dev
+  npm run start:debug
 
 [working-directory: 'frontend']
 _start_frontend:

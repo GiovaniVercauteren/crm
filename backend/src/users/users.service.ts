@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
+import { SignUpDto } from 'src/auth/dto/sign-up.dto';
 import { databaseSchema } from 'src/database/database-schema';
 import { DrizzleService } from 'src/database/drizzle.service';
-import { CreateUserDto } from './CreateUserDto';
-import { generateSalt, hashPassword } from 'src/util/password.util';
+import { generateSalt, hashPassword } from 'src/lib/password.util';
 
-type User = typeof databaseSchema.users.$inferSelect;
+export type User = typeof databaseSchema.users.$inferSelect;
 
 @Injectable()
 export class UsersService {
@@ -15,8 +15,15 @@ export class UsersService {
     return this.drizzleService.db.select().from(databaseSchema.users);
   }
 
-  async createUser(dto: CreateUserDto): Promise<User> {
-    const { name, email, password } = dto;
+  async createUser({
+    name,
+    email,
+    password,
+  }: Pick<SignUpDto, 'name' | 'email' | 'password'>): Promise<User> {
+    const existingUser = await this.findOneByEmail(email);
+    if (existingUser) {
+      throw new HttpException('Email already in use', 400);
+    }
 
     const salt = generateSalt();
     const hashedPassword = await hashPassword(password, salt);
