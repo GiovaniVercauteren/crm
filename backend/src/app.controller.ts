@@ -1,6 +1,6 @@
 import { Body, Controller, Get } from '@nestjs/common';
 import { User } from './decorators/user.decorator';
-import { UserEntity } from './users/dto/user-entity';
+import { UserEntity } from './users/dto/user.entity';
 
 @Controller()
 export class AppController {

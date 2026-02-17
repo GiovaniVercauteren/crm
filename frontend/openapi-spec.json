@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/": {
+    "/user": {
       "get": {
-        "operationId": "getHello",
+        "operationId": "getCurrentUser",
         "parameters": [],
         "responses": {
           "200": {
@@ -11,7 +11,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/UserEntity"
                 }
               }
             }
@@ -22,23 +22,9 @@
         ]
       }
     },
-    "/users": {
-      "get": {
-        "operationId": "getUsers",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "App"
-        ]
-      }
-    },
     "/auth/login": {
       "post": {
-        "operationId": "login",
+        "operationId": "signIn",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -60,9 +46,9 @@
         ]
       }
     },
-    "/auth/signup": {
+    "/auth/register": {
       "post": {
-        "operationId": "signup",
+        "operationId": "signUp",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -97,48 +83,6 @@
           "Auth"
         ]
       }
-    },
-    "/auth/session": {
-      "get": {
-        "operationId": "session",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SessionDto"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
-    "/auth/permissions": {
-      "get": {
-        "operationId": "permissions",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PermissionsDto"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Auth"
-        ]
-      }
     }
   },
   "info": {
@@ -151,6 +95,33 @@
   "servers": [],
   "components": {
     "schemas": {
+      "UserEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "firstName",
+          "lastName",
+          "role"
+        ]
+      },
       "SignInDto": {
         "type": "object",
         "properties": {
@@ -170,7 +141,12 @@
       "SignUpDto": {
         "type": "object",
         "properties": {
-          "name": {
+          "firstName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 255
+          },
+          "lastName": {
             "type": "string",
             "minLength": 2,
             "maxLength": 255
@@ -187,94 +163,11 @@
           }
         },
         "required": [
-          "name",
+          "firstName",
+          "lastName",
           "email",
           "password",
           "confirmPassword"
-        ]
-      },
-      "SessionDto": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "sub": {
-            "type": "number"
-          },
-          "name": {
-            "type": "string"
-          },
-          "iat": {
-            "type": "number"
-          },
-          "exp": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "email",
-          "sub",
-          "name",
-          "iat",
-          "exp"
-        ]
-      },
-      "PermissionsDto": {
-        "type": "object",
-        "properties": {
-          "bundles": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "admin",
-                "user",
-                "guest"
-              ]
-            }
-          },
-          "permissions": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "is_admin",
-                "is_user",
-                "is_guest",
-                "view_dashboard",
-                "view_profile",
-                "edit_profile",
-                "delete_profile"
-              ]
-            }
-          }
-        },
-        "x-bundle-permissions": {
-          "admin": [
-            "is_admin",
-            "is_user",
-            "is_guest",
-            "view_dashboard",
-            "view_profile",
-            "edit_profile",
-            "delete_profile"
-          ],
-          "user": [
-            "is_user",
-            "view_dashboard",
-            "view_profile",
-            "edit_profile"
-          ],
-          "guest": [
-            "is_guest",
-            "view_dashboard"
-          ]
-        },
-        "required": [
-          "bundles",
-          "permissions"
         ]
       }
     }

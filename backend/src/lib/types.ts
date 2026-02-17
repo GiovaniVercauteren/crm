@@ -1,4 +1,4 @@
-import { UserEntity } from 'src/users/dto/user-entity';
+import { UserEntity } from 'src/users/dto/user.entity';
 
 declare module 'fastify' {
   interface FastifyRequest {
