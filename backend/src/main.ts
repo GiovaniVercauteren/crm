@@ -5,8 +5,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import fastifySecureSession from '@fastify/secure-session';
-import { ConfigService } from '@nestjs/config';
+import fastifyCookie from '@fastify/cookie';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -16,20 +15,7 @@ async function bootstrap() {
     }),
   );
 
-  const configService = app.get(ConfigService);
-
-  await app.register(fastifySecureSession, {
-    key: Buffer.from(
-      configService.getOrThrow<string>('SESSION_SECRET'), // 32 bytes key for encryption
-      'hex',
-    ),
-    cookie: {
-      path: '/',
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-    },
-  });
+  await app.register(fastifyCookie);
 
   const config = new DocumentBuilder()
     .setTitle('CRM API')

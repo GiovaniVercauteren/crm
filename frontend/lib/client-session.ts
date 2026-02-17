@@ -1,7 +1,5 @@
 import { cookies } from "next/headers";
 import { getIronSession } from "iron-session";
-import api from "./api-client";
-import { BundlePermissions, schemas } from "./client.generated";
 import z from "zod";
 
 export type ClientSession = {

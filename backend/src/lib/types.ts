@@ -1,22 +1,36 @@
+import { UserEntity } from 'src/users/dto/user-entity';
+
 declare module 'fastify' {
   interface FastifyRequest {
-    user?: {
-      email: string;
-      sub: number;
-      name: string;
-    };
+    user?: UserEntity;
   }
 }
 
-declare module '@fastify/secure-session' {
-  interface SessionData {
-    access_token: string;
-    user: {
-      email: string;
-      sub: number;
-      name: string;
-      iat: number;
-      exp: number;
-    };
-  }
+export interface JwtCustomPayload {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: Role;
 }
+
+export interface JwtStandardPayload {
+  iat: number;
+  exp: number;
+}
+
+export type JwtFullPayload = JwtCustomPayload & JwtStandardPayload;
+
+export type AccessToken = string;
+
+const Role = {
+  Admin: 'admin',
+  User: 'user',
+} as const;
+
+export type Role = (typeof Role)[keyof typeof Role];
+
+export const RoleLevels: Record<Role, number> = {
+  [Role.Admin]: 2,
+  [Role.User]: 1,
+};

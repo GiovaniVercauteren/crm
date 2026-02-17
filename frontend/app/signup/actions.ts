@@ -1,14 +1,12 @@
 "use server";
 
-import { signUp } from "@/services/auth/auth";
-import { signupFormSchema, SignupFormState } from "../login/schemas";
-import { ApiError } from "@/services/secure-fetch";
+import apiClient from "@/lib/api-client";
+import { schemas } from "@/lib/client.generated";
 import z from "zod";
 
-export async function signupAction(
-  _prevState: SignupFormState,
-  formData: FormData,
-) {
+type SignupData = z.infer<typeof schemas.SignUpDto>;
+
+export async function signupAction(_prevState: SignupData, formData: FormData) {
   const values = {
     name: formData.get("name") as string,
     email: formData.get("email") as string,
@@ -16,28 +14,20 @@ export async function signupAction(
     confirmPassword: formData.get("confirmPassword") as string,
   };
 
-  const result = signupFormSchema.safeParse(values);
+  const result = schemas.SignUpDto.safeParse(values);
 
   if (!result.success) {
     return {
       values,
-      errors: z.treeifyError(result.error),
+      errors: result.error.flatten().fieldErrors,
       success: false,
     };
   }
 
   try {
-    await signUp(values);
+    await apiClient.signup(values);
   } catch (error) {
-    if (error instanceof ApiError) {
-      return {
-        values,
-        errors: {
-          errors: [error.message],
-        },
-        success: false,
-      };
-    }
+    console.error("Signup failed:", error);
   }
 
   return {

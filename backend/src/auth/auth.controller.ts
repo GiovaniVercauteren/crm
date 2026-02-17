@@ -1,22 +1,17 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
-  Session,
-  UnauthorizedException,
-  UseGuards,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
-import { Public } from './decorators/public.decorator';
-import { AuthGuard } from './auth.guard';
+import { Public } from '../decorators/public.decorator';
 import { SignUpDto } from './dto/sign-up.dto';
-import * as secureSession from '@fastify/secure-session';
-import { SessionDto } from './dto/session.dto';
-import { PermissionsDto } from './dto/permissions.dto';
+import { AccessToken } from 'src/lib/types';
+import { type FastifyReply } from 'fastify';
 
 @Controller('auth')
 export class AuthController {
@@ -25,58 +20,32 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async login(
+  async signIn(
     @Body() signInDto: SignInDto,
-    @Session() session: secureSession.Session,
+    @Res({ passthrough: true }) res: FastifyReply,
   ): Promise<void> {
-    const loginResponse = await this.authService.login(signInDto);
-
-    session.set('access_token', loginResponse.access_token); // Store token in session
+    const accessToken: AccessToken = await this.authService.signIn(signInDto);
+    // Store accessToken in cookie
+    res.setCookie('access_token', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 12 * 60 * 60, // 12 hours in seconds
+    });
   }
 
   @Public()
   @HttpCode(HttpStatus.CREATED)
-  @Post('signup')
-  async signup(@Body() signUpDto: SignUpDto): Promise<void> {
-    await this.authService.signup(signUpDto);
+  @Post('register')
+  async signUp(@Body() signUpDto: SignUpDto): Promise<void> {
+    await this.authService.signUp(signUpDto);
   }
 
   @Public()
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post('logout')
-  logout(@Session() session: secureSession.Session): void {
-    session.delete(); // Clear the session
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('session')
-  session(@Session() session: secureSession.Session): SessionDto {
-    const user = session.get('user');
-
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-
-    return user;
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('permissions')
-  async permissions(
-    @Session() session: secureSession.Session,
-  ): Promise<PermissionsDto> {
-    const user = session.get('user');
-
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-
-    const { sub } = user;
-    const permissions = await this.authService.getPermissions(sub);
-
-    return {
-      bundles: permissions?.bundles || [],
-      permissions: permissions?.permissions || [],
-    };
+  logout(@Res({ passthrough: true }) res: FastifyReply): void {
+    res.clearCookie('access_token');
   }
 }

@@ -8,24 +8,25 @@ import {
 } from "@/components/ui/field";
 import Form from "next/form";
 import { useActionState } from "react";
-import { LoginFormState } from "./schemas";
 import { loginAction } from "./actions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { FormState, Infer } from "@/lib/types";
+import { SignInDto } from "@/lib/client.generated";
 
 export default function LoginForm() {
-  const [state, formAction, pending] = useActionState<LoginFormState, FormData>(
-    loginAction,
-    {
-      values: {
-        email: "",
-        password: "",
-      },
-      errors: null,
-      success: false,
+  const [state, formAction, pending] = useActionState<
+    FormState<Infer<typeof SignInDto>>,
+    FormData
+  >(loginAction, {
+    values: {
+      email: "",
+      password: "",
     },
-  );
+    errors: null,
+    success: false,
+  });
 
   return (
     <Form action={formAction}>
@@ -39,10 +40,8 @@ export default function LoginForm() {
             defaultValue={state.values?.email}
             disabled={pending}
           />
-          {state.errors?.properties?.email && (
-            <FieldError>
-              {state.errors.properties.email.errors.join(", ")}
-            </FieldError>
+          {state.errors?.email && (
+            <FieldError>{state.errors.email.join(", ")}</FieldError>
           )}
         </Field>
         <Field>
@@ -54,10 +53,8 @@ export default function LoginForm() {
             defaultValue={state.values?.password}
             disabled={pending}
           />
-          {state.errors?.properties?.password && (
-            <FieldError>
-              {state.errors.properties.password.errors.join(", ")}
-            </FieldError>
+          {state.errors?.password && (
+            <FieldError>{state.errors.password.join(", ")}</FieldError>
           )}
         </Field>
         <Field>

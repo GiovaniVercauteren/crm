@@ -1,19 +1,21 @@
 "use server";
-import { z } from "zod";
-import { schemas } from "@/lib/client.generated";
+
 import api from "@/lib/api-client";
 import { setClientSession } from "@/lib/client-session";
 import { redirect } from "next/navigation";
+import { FormState, Infer } from "@/lib/types";
+import { SignInDto } from "@/lib/client.generated";
 
-type SignInData = z.infer<typeof schemas.SignInDto>;
-
-export async function loginAction(_prevState: SignInData, formData: FormData) {
+export async function loginAction(
+  _prevState: FormState<Infer<typeof SignInDto>>,
+  formData: FormData,
+) {
   const values = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
 
-  const result = schemas.SignInDto.safeParse(values);
+  const result = SignInDto.safeParse(values);
 
   if (!result.success) {
     return {

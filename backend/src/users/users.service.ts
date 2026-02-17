@@ -1,9 +1,9 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { SignUpDto } from 'src/auth/dto/sign-up.dto';
 import { databaseSchema } from 'src/database/database-schema';
 import { DrizzleService } from 'src/database/drizzle.service';
 import { generateSalt, hashPassword } from 'src/lib/password.util';
+import { CreateUserDto } from './dto/create-user.dto';
 
 export type User = typeof databaseSchema.users.$inferSelect;
 
@@ -15,22 +15,18 @@ export class UsersService {
     return this.drizzleService.db.select().from(databaseSchema.users);
   }
 
-  async createUser({
-    name,
-    email,
-    password,
-  }: Pick<SignUpDto, 'name' | 'email' | 'password'>): Promise<User> {
-    const existingUser = await this.findOneByEmail(email);
+  async createUser(data: CreateUserDto): Promise<User> {
+    const existingUser = await this.findOneByEmail(data.email);
     if (existingUser) {
       throw new HttpException('Email already in use', 400);
     }
 
     const salt = generateSalt();
-    const hashedPassword = await hashPassword(password, salt);
+    const hashedPassword = await hashPassword(data.password, salt);
 
     const [newUser] = await this.drizzleService.db
       .insert(databaseSchema.users)
-      .values({ name, email, password: hashedPassword, salt })
+      .values({ ...data, password: hashedPassword, salt })
       .returning();
     return newUser;
   }
