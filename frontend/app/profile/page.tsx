@@ -3,9 +3,10 @@
 import { useEffect, useState, useTransition } from "react";
 import { fetchProfileAction, logoutAction } from "./actions";
 import { Button } from "@/components/ui/button";
+import { UserEntity } from "@/lib/client";
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<UserEntity | undefined>(undefined);
 
   const [isPending, startTransition] = useTransition();
 
