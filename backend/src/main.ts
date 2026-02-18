@@ -18,7 +18,7 @@ async function bootstrap() {
 
   await app.register(fastifyCookie);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const config = new DocumentBuilder()
     .setTitle('CRM API')
