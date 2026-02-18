@@ -143,9 +143,23 @@
           "confirmPassword"
         ]
       },
+      "Role": {
+        "type": "string",
+        "enum": [
+          "admin",
+          "user"
+        ]
+      },
       "UserEntity": {
         "type": "object",
         "properties": {
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Role"
+              }
+            ]
+          },
           "id": {
             "type": "number"
           },
@@ -157,17 +171,14 @@
           },
           "lastName": {
             "type": "string"
-          },
-          "role": {
-            "type": "string"
           }
         },
         "required": [
+          "role",
           "id",
           "email",
           "firstName",
-          "lastName",
-          "role"
+          "lastName"
         ]
       }
     }

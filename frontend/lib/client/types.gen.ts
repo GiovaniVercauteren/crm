@@ -17,12 +17,14 @@ export type SignUpDto = {
     confirmPassword: string;
 };
 
+export type Role = 'admin' | 'user';
+
 export type UserEntity = {
+    role: Role;
     id: number;
     email: string;
     firstName: string;
     lastName: string;
-    role: string;
 };
 
 export type SignInData = {

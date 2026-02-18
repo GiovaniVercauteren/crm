@@ -30,6 +30,8 @@ const Role = {
 
 export type Role = (typeof Role)[keyof typeof Role];
 
+export const ROLE_VALUES: Role[] = Object.values(Role);
+
 export const RoleLevels: Record<Role, number> = {
   [Role.Admin]: 2,
   [Role.User]: 1,
