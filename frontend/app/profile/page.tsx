@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { fetchProfileAction, logoutAction } from "./actions";
-import { Button } from "@/components/ui/button";
+import { fetchProfileAction } from "./actions";
 import { UserEntity } from "@/lib/client";
 
 export default function ProfilePage() {
@@ -28,7 +27,6 @@ export default function ProfilePage() {
           <pre>{JSON.stringify(profile, null, 2)}</pre>
         </div>
       )}
-      <Button onClick={logoutAction}>Logout</Button>
     </div>
   );
 }

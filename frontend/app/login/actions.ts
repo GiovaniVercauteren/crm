@@ -2,8 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { FormState } from "@/lib/types";
-import { SignInDto } from "@/lib/client";
-import { signIn } from "@/lib/client";
+import { SignInDto, signIn } from "@/lib/client";
 import { handleFormError } from "@/lib/error-handling";
 
 export async function loginAction(
@@ -15,11 +14,11 @@ export async function loginAction(
     password: formData.get("password") as string,
   };
 
-  const { error } = await signIn({
-    body: values,
-  });
-
-  if (error) {
+  try {
+    await signIn({
+      body: values,
+    });
+  } catch (error) {
     return {
       values,
       errors: handleFormError(error),

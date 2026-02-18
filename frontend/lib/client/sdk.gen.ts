@@ -18,9 +18,7 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
     meta?: Record<string, unknown>;
 };
 
-export const getCurrentUser = <ThrowOnError extends boolean = false>(options?: Options<GetCurrentUserData, ThrowOnError>) => (options?.client ?? client).get<GetCurrentUserResponses, unknown, ThrowOnError>({ url: '/user', ...options });
-
-export const signIn = <ThrowOnError extends boolean = false>(options: Options<SignInData, ThrowOnError>) => (options.client ?? client).post<SignInResponses, unknown, ThrowOnError>({
+export const signIn = <ThrowOnError extends boolean = true>(options: Options<SignInData, ThrowOnError>) => (options.client ?? client).post<SignInResponses, unknown, ThrowOnError>({
     url: '/auth/login',
     ...options,
     headers: {
@@ -29,7 +27,7 @@ export const signIn = <ThrowOnError extends boolean = false>(options: Options<Si
     }
 });
 
-export const signUp = <ThrowOnError extends boolean = false>(options: Options<SignUpData, ThrowOnError>) => (options.client ?? client).post<SignUpResponses, unknown, ThrowOnError>({
+export const signUp = <ThrowOnError extends boolean = true>(options: Options<SignUpData, ThrowOnError>) => (options.client ?? client).post<SignUpResponses, unknown, ThrowOnError>({
     url: '/auth/register',
     ...options,
     headers: {
@@ -38,4 +36,6 @@ export const signUp = <ThrowOnError extends boolean = false>(options: Options<Si
     }
 });
 
-export const logout = <ThrowOnError extends boolean = false>(options?: Options<LogoutData, ThrowOnError>) => (options?.client ?? client).post<LogoutResponses, unknown, ThrowOnError>({ url: '/auth/logout', ...options });
+export const logout = <ThrowOnError extends boolean = true>(options?: Options<LogoutData, ThrowOnError>) => (options?.client ?? client).post<LogoutResponses, unknown, ThrowOnError>({ url: '/auth/logout', ...options });
+
+export const getCurrentUser = <ThrowOnError extends boolean = true>(options?: Options<GetCurrentUserData, ThrowOnError>) => (options?.client ?? client).get<GetCurrentUserResponses, unknown, ThrowOnError>({ url: '/auth/me', ...options });

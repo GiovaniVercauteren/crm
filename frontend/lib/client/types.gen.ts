@@ -4,14 +4,6 @@ export type ClientOptions = {
     baseUrl: string;
 };
 
-export type UserEntity = {
-    id: number;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-};
-
 export type SignInDto = {
     email: string;
     password: string;
@@ -25,18 +17,13 @@ export type SignUpDto = {
     confirmPassword: string;
 };
 
-export type GetCurrentUserData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/user';
+export type UserEntity = {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    role: string;
 };
-
-export type GetCurrentUserResponses = {
-    200: UserEntity;
-};
-
-export type GetCurrentUserResponse = GetCurrentUserResponses[keyof GetCurrentUserResponses];
 
 export type SignInData = {
     body: SignInDto;
@@ -72,3 +59,16 @@ export type LogoutResponses = {
 };
 
 export type LogoutResponse = LogoutResponses[keyof LogoutResponses];
+
+export type GetCurrentUserData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/me';
+};
+
+export type GetCurrentUserResponses = {
+    200: UserEntity;
+};
+
+export type GetCurrentUserResponse = GetCurrentUserResponses[keyof GetCurrentUserResponses];

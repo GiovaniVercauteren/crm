@@ -1,27 +1,6 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/user": {
-      "get": {
-        "operationId": "getCurrentUser",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserEntity"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "App"
-        ]
-      }
-    },
     "/auth/login": {
       "post": {
         "operationId": "signIn",
@@ -83,6 +62,27 @@
           "Auth"
         ]
       }
+    },
+    "/auth/me": {
+      "get": {
+        "operationId": "getCurrentUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntity"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
     }
   },
   "info": {
@@ -95,33 +95,6 @@
   "servers": [],
   "components": {
     "schemas": {
-      "UserEntity": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "email": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "email",
-          "firstName",
-          "lastName",
-          "role"
-        ]
-      },
       "SignInDto": {
         "type": "object",
         "properties": {
@@ -130,8 +103,7 @@
             "format": "email"
           },
           "password": {
-            "type": "string",
-            "minLength": 8
+            "type": "string"
           }
         },
         "required": [
@@ -157,12 +129,10 @@
             "format": "email"
           },
           "password": {
-            "type": "string",
-            "minLength": 8
+            "type": "string"
           },
           "confirmPassword": {
-            "type": "string",
-            "minLength": 8
+            "type": "string"
           }
         },
         "required": [
@@ -171,6 +141,33 @@
           "email",
           "password",
           "confirmPassword"
+        ]
+      },
+      "UserEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "firstName",
+          "lastName",
+          "role"
         ]
       }
     }

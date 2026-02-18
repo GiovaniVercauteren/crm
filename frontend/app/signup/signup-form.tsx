@@ -11,14 +11,18 @@ import { useActionState } from "react";
 import Form from "next/form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { SignUpDto } from "@/lib/client";
+import { FormState } from "@/lib/types";
+import { signUpAction } from "./actions";
 
 export default function SignupForm() {
   const [state, formAction, pending] = useActionState<
-    SignupFormState,
+    FormState<SignUpDto>,
     FormData
-  >(signupAction, {
+  >(signUpAction, {
     values: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -31,17 +35,27 @@ export default function SignupForm() {
     <Form action={formAction}>
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="name">Name</FieldLabel>
+          <FieldLabel htmlFor="firstName">First Name</FieldLabel>
           <Input
-            id="name"
-            name="name"
+            id="firstName"
+            name="firstName"
             type="text"
-            defaultValue={state.values?.name}
+            defaultValue={state.values?.firstName}
           />
-          {state.errors?.properties?.name && (
-            <FieldError>
-              {state.errors.properties.name.errors.join(", ")}
-            </FieldError>
+          {state.errors?.fieldErrors?.firstName && (
+            <FieldError>{state.errors.fieldErrors.firstName}</FieldError>
+          )}
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="lastName">Last Name</FieldLabel>
+          <Input
+            id="lastName"
+            name="lastName"
+            type="text"
+            defaultValue={state.values?.lastName}
+          />
+          {state.errors?.fieldErrors?.lastName && (
+            <FieldError>{state.errors.fieldErrors.lastName}</FieldError>
           )}
         </Field>
         <Field>
@@ -52,10 +66,8 @@ export default function SignupForm() {
             type="email"
             defaultValue={state.values?.email}
           />
-          {state.errors?.properties?.email && (
-            <FieldError>
-              {state.errors.properties.email.errors.join(", ")}
-            </FieldError>
+          {state.errors?.fieldErrors?.email && (
+            <FieldError>{state.errors.fieldErrors.email}</FieldError>
           )}
         </Field>
         <Field>
@@ -66,10 +78,8 @@ export default function SignupForm() {
             type="password"
             defaultValue={state.values?.password}
           />
-          {state.errors?.properties?.password && (
-            <FieldError>
-              {state.errors.properties.password.errors.join(", ")}
-            </FieldError>
+          {state.errors?.fieldErrors?.password && (
+            <FieldError>{state.errors.fieldErrors.password}</FieldError>
           )}
         </Field>
         <Field>
@@ -80,15 +90,13 @@ export default function SignupForm() {
             type="password"
             defaultValue={state.values?.confirmPassword}
           />
-          {state.errors?.properties?.confirmPassword && (
-            <FieldError>
-              {state.errors.properties.confirmPassword.errors.join(", ")}
-            </FieldError>
+          {state.errors?.fieldErrors?.confirmPassword && (
+            <FieldError>{state.errors.fieldErrors.confirmPassword}</FieldError>
           )}
         </Field>
         <Field>
-          {state.errors?.errors && (
-            <FieldError>{state.errors.errors.join(", ")}</FieldError>
+          {state.errors?.formErrors && (
+            <FieldError>{state.errors.formErrors.join(", ")}</FieldError>
           )}
         </Field>
       </FieldGroup>

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -12,6 +13,8 @@ import { Public } from '../decorators/public.decorator';
 import { SignUpDto } from './dto/sign-up.dto';
 import { AccessToken } from 'src/lib/types';
 import { type FastifyReply } from 'fastify';
+import { UserEntity } from 'src/users/dto/user.entity';
+import { User } from 'src/decorators/user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -47,5 +50,11 @@ export class AuthController {
   @Post('logout')
   logout(@Res({ passthrough: true }) res: FastifyReply): void {
     res.clearCookie('access_token');
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get('me')
+  getCurrentUser(@User() user: UserEntity): UserEntity {
+    return user;
   }
 }

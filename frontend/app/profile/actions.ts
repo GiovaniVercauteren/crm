@@ -1,23 +1,12 @@
 "use server";
 
-import { getCurrentUser, logout } from "@/lib/client";
+import { getCurrentUser } from "@/lib/client";
 
 export async function fetchProfileAction() {
-  const { data, error } = await getCurrentUser();
-
-  if (error) {
-    throw new Error("Failed to fetch user profile");
+  try {
+    const { data } = await getCurrentUser();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch user profile:", error);
   }
-
-  return data;
-}
-
-export async function logoutAction() {
-  const { data, error } = await logout();
-
-  if (error) {
-    throw new Error("Failed to log out");
-  }
-
-  return data;
 }
