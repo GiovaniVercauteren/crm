@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import apiClient from "@/lib/api-client";
-import { Button } from "@/components/ui/button";
-import AppHeader from "@/app/app-header";
+import "lib/interceptors";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,20 +23,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const logout = async () => {
-    try {
-      await apiClient.logout();
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AppHeader />
         {children}
       </body>
     </html>

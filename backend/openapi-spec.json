@@ -130,8 +130,7 @@
             "format": "email"
           },
           "password": {
-            "type": "string",
-            "minLength": 8
+            "type": "string"
           }
         },
         "required": [
@@ -157,12 +156,10 @@
             "format": "email"
           },
           "password": {
-            "type": "string",
-            "minLength": 8
+            "type": "string"
           },
           "confirmPassword": {
-            "type": "string",
-            "minLength": 8
+            "type": "string"
           }
         },
         "required": [

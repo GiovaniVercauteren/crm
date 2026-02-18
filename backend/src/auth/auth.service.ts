@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -8,7 +9,6 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { verifyPassword } from 'src/lib/password.util';
 import { SignUpDto } from './dto/sign-up.dto';
-import { DrizzleService } from 'src/database/drizzle.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { AccessToken, JwtCustomPayload } from 'src/lib/types';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -18,14 +18,13 @@ export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
-    private readonly drizzleService: DrizzleService,
   ) {}
 
   async signIn(signInDto: SignInDto): Promise<AccessToken> {
     const { email, password } = signInDto;
     const user = await this.userService.findOneByEmail(email);
     if (!user || !(await verifyPassword(user.password, password, user.salt))) {
-      throw new UnauthorizedException('Invalid email or password');
+      throw new BadRequestException('Invalid email or password');
     }
     if (user.isBlocked) {
       throw new UnauthorizedException('Account is blocked');

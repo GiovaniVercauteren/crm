@@ -1,9 +1,10 @@
-import { z, ZodTypeAny } from "zod";
+export type FormStateError = {
+  formErrors?: string[];
+  fieldErrors?: Record<string, string[]>;
+};
 
 export type FormState<T> = {
   values: T;
-  errors: Record<string, string[]> | null;
-  success: boolean;
+  errors?: FormStateError | null;
+  success?: boolean;
 };
-
-export type Infer<T extends ZodTypeAny> = z.infer<T>;

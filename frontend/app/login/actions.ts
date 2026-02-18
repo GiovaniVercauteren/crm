@@ -1,13 +1,13 @@
 "use server";
 
-import api from "@/lib/api-client";
-import { setClientSession } from "@/lib/client-session";
 import { redirect } from "next/navigation";
-import { FormState, Infer } from "@/lib/types";
-import { SignInDto } from "@/lib/client.generated";
+import { FormState } from "@/lib/types";
+import { SignInDto } from "@/lib/client";
+import { signIn } from "@/lib/client";
+import { handleFormError } from "@/lib/error-handling";
 
 export async function loginAction(
-  _prevState: FormState<Infer<typeof SignInDto>>,
+  _prevState: FormState<SignInDto>,
   formData: FormData,
 ) {
   const values = {
@@ -15,22 +15,16 @@ export async function loginAction(
     password: formData.get("password") as string,
   };
 
-  const result = SignInDto.safeParse(values);
+  const { error } = await signIn({
+    body: values,
+  });
 
-  if (!result.success) {
+  if (error) {
     return {
       values,
-      errors: result.error.flatten().fieldErrors,
+      errors: handleFormError(error),
       success: false,
     };
-  }
-
-  try {
-    await api.login(values);
-    // Store a user session cookie, different from the session from the server, to manage client-side session state
-    await setClientSession();
-  } catch (error) {
-    console.error("Login failed:", error);
   }
 
   redirect("/profile");

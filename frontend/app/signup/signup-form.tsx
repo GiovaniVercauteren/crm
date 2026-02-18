@@ -7,8 +7,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { signupAction } from "./actions";
-import { SignupFormState } from "../login/schemas";
 import { useActionState } from "react";
 import Form from "next/form";
 import { Button } from "@/components/ui/button";

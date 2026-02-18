@@ -12,12 +12,12 @@ import { loginAction } from "./actions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { FormState, Infer } from "@/lib/types";
-import { SignInDto } from "@/lib/client.generated";
+import { FormState } from "@/lib/types";
+import { SignInDto } from "@/lib/client";
 
 export default function LoginForm() {
   const [state, formAction, pending] = useActionState<
-    FormState<Infer<typeof SignInDto>>,
+    FormState<SignInDto>,
     FormData
   >(loginAction, {
     values: {
@@ -40,8 +40,8 @@ export default function LoginForm() {
             defaultValue={state.values?.email}
             disabled={pending}
           />
-          {state.errors?.email && (
-            <FieldError>{state.errors.email.join(", ")}</FieldError>
+          {state.errors?.fieldErrors?.email && (
+            <FieldError>{state.errors.fieldErrors.email.join(", ")}</FieldError>
           )}
         </Field>
         <Field>
@@ -53,13 +53,15 @@ export default function LoginForm() {
             defaultValue={state.values?.password}
             disabled={pending}
           />
-          {state.errors?.password && (
-            <FieldError>{state.errors.password.join(", ")}</FieldError>
+          {state.errors?.fieldErrors?.password && (
+            <FieldError>
+              {state.errors.fieldErrors.password.join(", ")}
+            </FieldError>
           )}
         </Field>
         <Field>
-          {state.errors?.errors && (
-            <FieldError>{state.errors.errors.join(", ")}</FieldError>
+          {state.errors?.formErrors && (
+            <FieldError>{state.errors.formErrors.join(", ")}</FieldError>
           )}
         </Field>
       </FieldGroup>

@@ -1,13 +1,23 @@
 "use server";
 
-import api from "@/lib/api-client";
+import { getCurrentUser, logout } from "@/lib/client";
 
-export async function getProfileAction() {
-  const result = await api.session();
-  return result;
+export async function fetchProfileAction() {
+  const { data, error } = await getCurrentUser();
+
+  if (error) {
+    throw new Error("Failed to fetch user profile");
+  }
+
+  return data;
 }
 
-export async function getPermissionsAction() {
-  const result = await api.permissions();
-  return result;
+export async function logoutAction() {
+  const { data, error } = await logout();
+
+  if (error) {
+    throw new Error("Failed to log out");
+  }
+
+  return data;
 }
