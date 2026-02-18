@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAuthenticated } from "./lib/auth";
 
 // Only allow access to public routes without authentication
 const publicRoutes = ["/login", "/signup", "/forgot-password"];
@@ -13,10 +14,7 @@ export default async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // For other routes, check if the user is authenticated
-  const isAuthenticated = true;
-
-  if (!isAuthenticated) {
+  if (!(await isAuthenticated())) {
     // If not authenticated, redirect to the login page
     const loginUrl = new URL("/login", req.nextUrl);
     return NextResponse.redirect(loginUrl);
