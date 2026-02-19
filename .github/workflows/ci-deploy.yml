@@ -78,7 +78,7 @@ jobs:
           port: ${{ secrets.SERVER_SSH_PORT }}
           # remove target directory before copying
           rm: true
-          source: "docker-compose.yml,backend/.env.enc,frontend/.env.enc"
+          source: "docker-compose.yml,backend/.env.encrypted,frontend/.env.encrypted,database/.env.encrypted"
           target: "/containers/${{ github.repository }}/"
 
       - name: Pull image and start
@@ -101,19 +101,15 @@ jobs:
 
             cd "/containers/${{ github.repository }}"
 
-            mkdir -p backend database frontend
-
             if ! command -v sops >/dev/null 2>&1; then
               echo "sops is not installed on the server"
               exit 1
             fi
 
-            sops --decrypt --input-type dotenv --output-type dotenv backend/.env.enc > backend/.env
-            sops --decrypt --input-type dotenv --output-type dotenv backend/.env.enc > database/.env
+            sops --decrypt --input-type dotenv --output-type dotenv backend/.env.encrypted > backend/.env
+            sops --decrypt --input-type dotenv --output-type dotenv database/.env.encrypted > database/.env
+            sops --decrypt --input-type dotenv --output-type dotenv frontend/.env.encrypted > frontend/.env
 
-            if [ -f frontend/.env.enc ]; then
-              sops --decrypt --input-type dotenv --output-type dotenv frontend/.env.enc > frontend/.env
-            fi
 
             chmod 600 backend/.env
             chmod 600 database/.env

@@ -34,7 +34,8 @@ yarn-error.log*
 .env*
 
 # allow encrypted files
-!.env*.enc
+!.env.encrypted
+!.env.template
 
 # vercel
 .vercel

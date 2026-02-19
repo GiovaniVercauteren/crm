@@ -39,7 +39,8 @@ lerna-debug.log*
 .env*
 
 # allow encrypted secrets
-!.env*.enc
+!.env.encrypted
+!.env.template
 
 # temp directory
 .temp
