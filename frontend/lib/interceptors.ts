@@ -2,6 +2,8 @@ import { client } from "./client/client.gen";
 import { ResolvedRequestOptions } from "./client/client/types.gen";
 import { parse } from "set-cookie-parser";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import { access } from "fs";
 
 async function appendAccessToken(request: ResolvedRequestOptions) {
   const cookieStore = await cookies();
@@ -25,14 +27,18 @@ async function extractAccessToken(response: Response) {
   );
 
   if (accessTokenCookie) {
+    console.log(
+      "Setting access token cookie:",
+      JSON.stringify(accessTokenCookie),
+    );
     const cookieStore = await cookies();
     cookieStore.set("access_token", accessTokenCookie.value, {
-      ...accessTokenCookie,
-      sameSite: accessTokenCookie.sameSite as
-        | "lax"
-        | "strict"
-        | "none"
-        | undefined,
+      httpOnly: accessTokenCookie.httpOnly,
+      secure: accessTokenCookie.secure,
+      sameSite:
+        (accessTokenCookie.sameSite as "lax" | "strict" | "none") || "lax",
+      path: accessTokenCookie.path || "/",
+      maxAge: accessTokenCookie.maxAge,
     });
   }
 
