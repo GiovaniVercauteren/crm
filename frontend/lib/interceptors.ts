@@ -31,11 +31,10 @@ async function extractAccessToken(response: Response) {
     );
     const cookieStore = await cookies();
     cookieStore.set("access_token", accessTokenCookie.value, {
-      httpOnly: accessTokenCookie.httpOnly,
-      secure: accessTokenCookie.secure,
-      sameSite:
-        (accessTokenCookie.sameSite as "lax" | "strict" | "none") || "lax",
-      path: accessTokenCookie.path || "/",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
       maxAge: accessTokenCookie.maxAge,
     });
   }

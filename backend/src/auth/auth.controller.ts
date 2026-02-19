@@ -31,7 +31,7 @@ export class AuthController {
     // Store accessToken in cookie
     res.setCookie('access_token', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: false, // Inter-container communication doesn't require secure cookies
       sameSite: 'lax',
       path: '/',
       maxAge: 12 * 60 * 60, // 12 hours in seconds
