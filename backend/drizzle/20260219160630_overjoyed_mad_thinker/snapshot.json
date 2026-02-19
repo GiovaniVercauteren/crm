@@ -1,9 +1,9 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "a36394ab-1566-40d3-9e55-011edf4a4e7f",
+  "id": "a988f4d3-24e7-4bc8-8fa6-5051ff04f020",
   "prevIds": [
-    "9ab836c4-d6e1-4bbf-abae-7d37096c728e"
+    "00000000-0000-0000-0000-000000000000"
   ],
   "ddl": [
     {
@@ -33,7 +33,20 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "name",
+      "name": "first_name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "users"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "last_name",
       "entityType": "columns",
       "schema": "public",
       "table": "users"
@@ -73,6 +86,32 @@
       "generated": null,
       "identity": null,
       "name": "salt",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "users"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'user'",
+      "generated": null,
+      "identity": null,
+      "name": "role",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "users"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "false",
+      "generated": null,
+      "identity": null,
+      "name": "is_blocked",
       "entityType": "columns",
       "schema": "public",
       "table": "users"
