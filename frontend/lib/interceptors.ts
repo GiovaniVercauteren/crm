@@ -3,7 +3,10 @@ import { ResolvedRequestOptions } from "./client/client/types.gen";
 import { parse } from "set-cookie-parser";
 import { cookies } from "next/headers";
 
+console.log("[interceptor] module loaded");
+
 async function appendAccessToken(request: ResolvedRequestOptions) {
+  console.log("[interceptor] request interceptor hit");
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("access_token")?.value;
 
@@ -16,6 +19,11 @@ async function appendAccessToken(request: ResolvedRequestOptions) {
 }
 
 async function extractAccessToken(response: Response) {
+  console.log(
+    "[interceptor] response interceptor hit",
+    response.status,
+    response.url,
+  );
   console.log(
     "[interceptor] runtime:",
     typeof window === "undefined" ? "server" : "browser",
@@ -55,3 +63,5 @@ async function extractAccessToken(response: Response) {
 
 client.interceptors.request.use(appendAccessToken);
 client.interceptors.response.use(extractAccessToken);
+
+console.log("[interceptor] interceptors registered");
