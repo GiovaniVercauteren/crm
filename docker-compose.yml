@@ -31,10 +31,20 @@ services:
   db:
     image: ghcr.io/giovanivercauteren/crm-database:latest
     restart: unless-stopped
+    shm_size: "256mb"
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+          cpus: "1.0"
     env_file:
       - database/.env
     volumes:
       - db_data:/var/lib/postgresql/
+    command: >
+      -c shared_buffers=512MB
+      -c effective_cache_size=1536MB
+      -c work_mem=16MB
     networks:
       - internal
 
