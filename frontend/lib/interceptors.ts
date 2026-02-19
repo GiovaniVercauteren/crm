@@ -16,9 +16,20 @@ async function appendAccessToken(request: ResolvedRequestOptions) {
 }
 
 async function extractAccessToken(response: Response) {
+  console.log(
+    "[interceptor] runtime:",
+    typeof window === "undefined" ? "server" : "browser",
+  );
+  console.log(
+    "[interceptor] set-cookie count:",
+    response.headers.getSetCookie?.().length ?? 0,
+  );
   const headers = response.headers;
   const setCookie = headers.getSetCookie();
   const parsedCookies = parse(setCookie);
+
+  // TEMPORARY: Log the parsed cookies to debug the issue
+  console.log("Parsed cookies from response:", JSON.stringify(parsedCookies));
 
   const accessTokenCookie = parsedCookies.find(
     (cookie) => cookie.name === "access_token",
