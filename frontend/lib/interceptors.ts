@@ -2,8 +2,6 @@ import { client } from "./client/client.gen";
 import { ResolvedRequestOptions } from "./client/client/types.gen";
 import { parse } from "set-cookie-parser";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
-import { access } from "fs";
 
 async function appendAccessToken(request: ResolvedRequestOptions) {
   const cookieStore = await cookies();
