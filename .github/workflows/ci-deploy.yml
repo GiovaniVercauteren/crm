@@ -106,11 +106,11 @@ jobs:
               exit 1
             fi
 
-            sops --decrypt backend/.env.enc > backend/.env
-            sops --decrypt backend/.env.enc > database/.env
+            sops --decrypt --input-type dotenv --output-type dotenv backend/.env.enc > backend/.env
+            sops --decrypt --input-type dotenv --output-type dotenv backend/.env.enc > database/.env
 
             if [ -f frontend/.env.enc ]; then
-              sops --decrypt frontend/.env.enc > frontend/.env
+              sops --decrypt --input-type dotenv --output-type dotenv frontend/.env.enc > frontend/.env
             fi
 
             chmod 600 backend/.env
