@@ -9,9 +9,6 @@ jobs:
   build-and-push:
     name: Build and push frontend image
     runs-on: ubuntu-latest
-    outputs:
-      image: ${{ steps.set-vars.outputs.image }}
-      repo_name_lower: ${{ steps.set-vars.outputs.repo_name_lower }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,23 +16,18 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Set lowercase owner + repo
+      - name: Set lowercase repo
         id: set-vars
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          IMAGE_OWNER=$(echo "$GITHUB_REPOSITORY" | cut -d/ -f1 | tr '[:upper:]' '[:lower:]')
-          REPO_NAME_LOWER=$(echo "$GITHUB_REPOSITORY" | cut -d/ -f2 | tr '[:upper:]' '[:lower:]')
-          IMAGE="ghcr.io/$IMAGE_OWNER/$REPO_NAME_LOWER"
-          echo "IMAGE_OWNER=$IMAGE_OWNER" >> $GITHUB_ENV
-          echo "REPO_NAME_LOWER=$REPO_NAME_LOWER" >> $GITHUB_ENV
-          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
-          echo "image=$IMAGE" >> $GITHUB_OUTPUT
-          echo "repo_name_lower=$REPO_NAME_LOWER" >> $GITHUB_OUTPUT
+          echo "image_name=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
 
       - name: Login to GHCR
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ env.IMAGE_OWNER }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push frontend image
@@ -45,8 +37,8 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE }}-frontend:latest
-            ${{ env.IMAGE }}-frontend:${{ github.sha }}
+            ghcr.io/${{ steps.set-vars.outputs.image_name }}-frontend:latest
+            ghcr.io/${{ steps.set-vars.outputs.image_name }}-frontend:${{ github.sha }}
 
       - name: Build and push backend image
         uses: docker/build-push-action@v4
@@ -55,8 +47,8 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE }}-backend:latest
-            ${{ env.IMAGE }}-backend:${{ github.sha }}
+            ghcr.io/${{ steps.set-vars.outputs.image_name }}-backend:latest
+            ghcr.io/${{ steps.set-vars.outputs.image_name }}-backend:${{ github.sha }}
 
       - name: Build and push database image
         uses: docker/build-push-action@v4
@@ -65,8 +57,8 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE }}-database:latest
-            ${{ env.IMAGE }}-database:${{ github.sha }}
+            ghcr.io/${{ steps.set-vars.outputs.image_name }}-database:latest
+            ghcr.io/${{ steps.set-vars.outputs.image_name }}-database:${{ github.sha }}
 
   deploy:
     name: Deploy to Server
@@ -86,28 +78,42 @@ jobs:
           port: ${{ secrets.SERVER_SSH_PORT }}
           # remove target directory before copying
           rm: true
-          source: "docker-compose.yml"
-          target: "/containers/${{ needs.build-and-push.outputs.repo_name_lower }}/"
+          source: "docker-compose.yml,backend/.env.enc,frontend/.env.enc"
+          target: "/containers/${{ github.repository }}/"
 
       - name: Pull image and start
         uses: appleboy/ssh-action@v0.1.8
+        env:
+          SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
           port: ${{ secrets.SERVER_SSH_PORT }}
+          envs: SOPS_AGE_KEY
           script: |
-            cd /containers/${{ needs.build-and-push.outputs.repo_name_lower }}
+            set -euo pipefail
 
-            cat > ./.env <<EOF
-            POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-            DB_URL=${{ secrets.DB_URL }}
-            EOF
+            cd "/containers/${{ github.repository }}"
 
-            chmod 600 ./.env
+            if ! command -v sops >/dev/null 2>&1; then
+              echo "sops is not installed on the server"
+              exit 1
+            fi
+
+            sops --decrypt backend/.env.enc > backend/.env
+            sops --decrypt backend/.env.enc > database/.env
+
+            if [ -f frontend/.env.enc ]; then
+              sops --decrypt frontend/.env.enc > frontend/.env
+            fi
+
+            chmod 600 backend/.env
+            chmod 600 database/.env
+            if [ -f frontend/.env ]; then
+              chmod 600 frontend/.env
+            fi
 
             docker compose pull
             docker compose up -d

@@ -6,6 +6,8 @@ services:
       - backend
     environment:
       - NODE_ENV=production
+    env_file:
+      - frontend/.env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.crm-frontend.rule=Host(`crm.vercauteren.io`)"
@@ -20,7 +22,7 @@ services:
     environment:
       - NODE_ENV=production
     env_file:
-      - .env
+      - backend/.env
     depends_on:
       - db
     networks:
@@ -30,7 +32,7 @@ services:
     image: ghcr.io/giovanivercauteren/crm-database:latest
     restart: unless-stopped
     env_file:
-      - .env
+      - database/.env
     volumes:
       - db_data:/var/lib/postgresql/
     networks:
