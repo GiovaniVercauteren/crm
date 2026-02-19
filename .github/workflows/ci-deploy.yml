@@ -101,6 +101,8 @@ jobs:
 
             cd "/containers/${{ github.repository }}"
 
+            mkdir -p backend database frontend
+
             if ! command -v sops >/dev/null 2>&1; then
               echo "sops is not installed on the server"
               exit 1
