@@ -41,7 +41,7 @@ export class AuthGuard implements CanActivate {
     const roleLevel = RoleLevels[role];
 
     const request = context.switchToHttp().getRequest<FastifyRequest>();
-    const token = this.extractTokenFromCookies(request);
+    const token = this.extractBearerToken(request);
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -71,7 +71,7 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  private extractTokenFromCookies(request: FastifyRequest): string | undefined {
-    return request.cookies.access_token;
+  private extractBearerToken(request: FastifyRequest): string | undefined {
+    return request.headers['authorization']?.split(' ')[1];
   }
 }

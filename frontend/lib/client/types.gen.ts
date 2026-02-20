@@ -35,8 +35,10 @@ export type SignInData = {
 };
 
 export type SignInResponses = {
-    200: unknown;
+    200: string;
 };
+
+export type SignInResponse = SignInResponses[keyof SignInResponses];
 
 export type SignUpData = {
     body: SignUpDto;
