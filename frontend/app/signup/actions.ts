@@ -1,9 +1,12 @@
 "use server";
 
-import { signUp, SignUpDto } from "@/lib/client";
-import { handleFormError } from "@/lib/error-handling";
+import { signUp } from "@/dal/endpoints/auth";
+import { SignUpDto } from "@/lib/client";
+import { zSignUpDto } from "@/lib/client/zod.gen";
 import { FormState } from "@/lib/types";
+import { handleError } from "@/lib/utils";
 import { redirect } from "next/navigation";
+import z from "zod";
 
 export async function signUpAction(
   _prevState: FormState<SignUpDto>,
@@ -17,27 +20,28 @@ export async function signUpAction(
     confirmPassword: formData.get("confirmPassword") as string,
   };
 
-  // Client-side validation for password confirmation
-  if (values.password !== values.confirmPassword) {
+  const validation = zSignUpDto
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    })
+    .safeParse(values);
+  if (!validation.success) {
     return {
       values,
       errors: {
-        fieldErrors: {
-          confirmPassword: ["Passwords do not match"],
-        },
+        validation: z.flattenError(validation.error),
       },
       success: false,
     };
   }
 
   try {
-    await signUp({
-      body: values,
-    });
+    await signUp(values);
   } catch (error) {
     return {
       values,
-      errors: handleFormError(error),
+      errors: { server: handleError(error) },
       success: false,
     };
   }

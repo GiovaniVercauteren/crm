@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/auth/login": {
+    "/auth/sign-in": {
       "post": {
         "operationId": "signIn",
         "parameters": [],
@@ -32,7 +32,7 @@
         ]
       }
     },
-    "/auth/register": {
+    "/auth/sign-up": {
       "post": {
         "operationId": "signUp",
         "parameters": [],
@@ -56,9 +56,9 @@
         ]
       }
     },
-    "/auth/logout": {
+    "/auth/sign-out": {
       "post": {
-        "operationId": "logout",
+        "operationId": "signOut",
         "parameters": [],
         "responses": {
           "204": {

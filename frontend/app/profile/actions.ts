@@ -1,11 +1,11 @@
 "use server";
 
-import { getCurrentUser } from "@/lib/client";
+import { getCurrentUser } from "@/dal/endpoints/auth";
 
 export async function fetchProfileAction() {
   try {
-    const { data } = await getCurrentUser();
-    return data;
+    const user = await getCurrentUser();
+    return user;
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
   }

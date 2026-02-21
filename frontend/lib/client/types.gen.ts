@@ -31,7 +31,7 @@ export type SignInData = {
     body: SignInDto;
     path?: never;
     query?: never;
-    url: '/auth/login';
+    url: '/auth/sign-in';
 };
 
 export type SignInResponses = {
@@ -44,25 +44,25 @@ export type SignUpData = {
     body: SignUpDto;
     path?: never;
     query?: never;
-    url: '/auth/register';
+    url: '/auth/sign-up';
 };
 
 export type SignUpResponses = {
     201: unknown;
 };
 
-export type LogoutData = {
+export type SignOutData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/auth/logout';
+    url: '/auth/sign-out';
 };
 
-export type LogoutResponses = {
+export type SignOutResponses = {
     204: void;
 };
 
-export type LogoutResponse = LogoutResponses[keyof LogoutResponses];
+export type SignOutResponse = SignOutResponses[keyof SignOutResponses];
 
 export type GetCurrentUserData = {
     body?: never;

@@ -1,30 +1,34 @@
 import { cookies } from "next/headers";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { Role } from "./client";
+import { Role, UserEntity } from "./client";
+import { cache } from "react";
 
-export function verifyAccessToken(token: string): JwtPayload | string | null {
-  const secret = process.env.JWT_SECRET;
+export const verifyAccessToken = cache(
+  (token: string): JwtPayload | string | null => {
+    const secret = process.env.JWT_SECRET;
 
-  if (!secret) {
-    console.error("JWT_SECRET is not defined");
-    return null;
-  }
+    if (!secret) {
+      console.error("JWT_SECRET is not defined");
+      return null;
+    }
 
-  try {
-    return jwt.verify(token, secret);
-  } catch (error) {
-    console.error("Invalid access token:", error);
-    return null;
-  }
-}
+    try {
+      return jwt.verify(token, secret);
+    } catch (error) {
+      console.error("Invalid access token:", error);
+      return null;
+    }
+  },
+);
 
-async function getAccessToken(): Promise<string | null> {
+export const getAccessToken = cache(async (): Promise<string | null> => {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get("access_token")?.value || null;
+  const accessToken =
+    cookieStore.get(process.env.ACCESS_TOKEN_COOKIE_NAME!)?.value || null;
   return accessToken;
-}
+});
 
-export async function isAuthenticated(): Promise<boolean> {
+export const isAuthenticated = cache(async (): Promise<boolean> => {
   const accessToken = await getAccessToken();
 
   if (accessToken) {
@@ -32,16 +36,30 @@ export async function isAuthenticated(): Promise<boolean> {
   }
 
   return false;
-}
+});
 
-export async function getRole(): Promise<Role | null> {
+export const getUser = cache(async (): Promise<UserEntity | null> => {
   const accessToken = await getAccessToken();
 
   const payload = accessToken ? verifyAccessToken(accessToken) : null;
 
-  if (payload && typeof payload === "object" && "role" in payload) {
-    return payload.role as Role;
+  if (
+    payload &&
+    typeof payload === "object" &&
+    "id" in payload &&
+    "email" in payload &&
+    "firstName" in payload &&
+    "lastName" in payload &&
+    "role" in payload
+  ) {
+    return {
+      id: payload.id,
+      email: payload.email,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      role: payload.role as Role,
+    } as UserEntity;
   }
 
   return null;
-}
+});

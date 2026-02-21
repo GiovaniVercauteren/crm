@@ -40,8 +40,10 @@ export default function LoginForm() {
             defaultValue={state.values?.email}
             disabled={pending}
           />
-          {state.errors?.fieldErrors?.email && (
-            <FieldError>{state.errors.fieldErrors.email.join(", ")}</FieldError>
+          {state.errors?.validation?.fieldErrors?.email && (
+            <FieldError>
+              {state.errors.validation.fieldErrors.email.join(", ")}
+            </FieldError>
           )}
         </Field>
         <Field>
@@ -53,15 +55,20 @@ export default function LoginForm() {
             defaultValue={state.values?.password}
             disabled={pending}
           />
-          {state.errors?.fieldErrors?.password && (
+          {state.errors?.validation?.fieldErrors?.password && (
             <FieldError>
-              {state.errors.fieldErrors.password.join(", ")}
+              {state.errors.validation.fieldErrors.password.join(", ")}
             </FieldError>
           )}
         </Field>
         <Field>
-          {state.errors?.formErrors && (
-            <FieldError>{state.errors.formErrors.join(", ")}</FieldError>
+          {state.errors?.validation?.formErrors && (
+            <FieldError>
+              {state.errors.validation.formErrors.join(", ")}
+            </FieldError>
+          )}
+          {state.errors?.server && (
+            <FieldError>{state.errors.server}</FieldError>
           )}
         </Field>
       </FieldGroup>

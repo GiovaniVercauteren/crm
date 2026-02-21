@@ -2,9 +2,12 @@
 
 import { redirect } from "next/navigation";
 import { FormState } from "@/lib/types";
-import { SignInDto, signIn } from "@/lib/client";
-import { handleFormError } from "@/lib/error-handling";
+import { SignInDto } from "@/lib/client";
+import { signIn } from "@/dal/endpoints/auth";
 import { cookies } from "next/headers";
+import { zSignInDto } from "@/lib/client/zod.gen";
+import z from "zod";
+import { handleError } from "@/lib/utils";
 
 export async function loginAction(
   _prevState: FormState<SignInDto>,
@@ -15,22 +18,29 @@ export async function loginAction(
     password: formData.get("password") as string,
   };
 
+  const validation = zSignInDto.safeParse(values);
+  if (!validation.success) {
+    return {
+      values,
+      errors: { validation: z.flattenError(validation.error) },
+      success: false,
+    };
+  }
+
   try {
-    const { data: accessToken } = await signIn({
-      body: values,
-    });
+    const accessToken = await signIn(values);
     const cookieStore = await cookies();
-    cookieStore.set("access_token", accessToken, {
+    cookieStore.set(process.env.ACCESS_TOKEN_COOKIE_NAME!, accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       path: "/",
-      maxAge: 12 * 60 * 60, // 12 hours in seconds
+      maxAge: Number(process.env.ACCESS_TOKEN_EXPIRATION),
     });
   } catch (error) {
     return {
       values,
-      errors: handleFormError(error),
+      errors: { server: handleError(error) },
       success: false,
     };
   }

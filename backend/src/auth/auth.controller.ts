@@ -20,7 +20,7 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('login')
+  @Post('sign-in')
   async signIn(@Body() signInDto: SignInDto): Promise<AccessToken> {
     const accessToken: AccessToken = await this.authService.signIn(signInDto);
     return accessToken;
@@ -28,15 +28,15 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.CREATED)
-  @Post('register')
+  @Post('sign-up')
   async signUp(@Body() signUpDto: SignUpDto): Promise<void> {
     await this.authService.signUp(signUpDto);
   }
 
   @Public()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Post('logout')
-  logout(): void {}
+  @Post('sign-out')
+  signOut(): void {}
 
   @HttpCode(HttpStatus.OK)
   @Get('me')

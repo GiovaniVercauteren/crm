@@ -42,8 +42,10 @@ export default function SignupForm() {
             type="text"
             defaultValue={state.values?.firstName}
           />
-          {state.errors?.fieldErrors?.firstName && (
-            <FieldError>{state.errors.fieldErrors.firstName}</FieldError>
+          {state.errors?.validation?.fieldErrors?.firstName && (
+            <FieldError>
+              {state.errors.validation.fieldErrors.firstName}
+            </FieldError>
           )}
         </Field>
         <Field>
@@ -54,8 +56,10 @@ export default function SignupForm() {
             type="text"
             defaultValue={state.values?.lastName}
           />
-          {state.errors?.fieldErrors?.lastName && (
-            <FieldError>{state.errors.fieldErrors.lastName}</FieldError>
+          {state.errors?.validation?.fieldErrors?.lastName && (
+            <FieldError>
+              {state.errors.validation.fieldErrors.lastName}
+            </FieldError>
           )}
         </Field>
         <Field>
@@ -66,8 +70,8 @@ export default function SignupForm() {
             type="email"
             defaultValue={state.values?.email}
           />
-          {state.errors?.fieldErrors?.email && (
-            <FieldError>{state.errors.fieldErrors.email}</FieldError>
+          {state.errors?.validation?.fieldErrors?.email && (
+            <FieldError>{state.errors.validation.fieldErrors.email}</FieldError>
           )}
         </Field>
         <Field>
@@ -78,8 +82,10 @@ export default function SignupForm() {
             type="password"
             defaultValue={state.values?.password}
           />
-          {state.errors?.fieldErrors?.password && (
-            <FieldError>{state.errors.fieldErrors.password}</FieldError>
+          {state.errors?.validation?.fieldErrors?.password && (
+            <FieldError>
+              {state.errors.validation.fieldErrors.password}
+            </FieldError>
           )}
         </Field>
         <Field>
@@ -90,13 +96,20 @@ export default function SignupForm() {
             type="password"
             defaultValue={state.values?.confirmPassword}
           />
-          {state.errors?.fieldErrors?.confirmPassword && (
-            <FieldError>{state.errors.fieldErrors.confirmPassword}</FieldError>
+          {state.errors?.validation?.fieldErrors?.confirmPassword && (
+            <FieldError>
+              {state.errors.validation.fieldErrors.confirmPassword}
+            </FieldError>
           )}
         </Field>
         <Field>
-          {state.errors?.formErrors && (
-            <FieldError>{state.errors.formErrors.join(", ")}</FieldError>
+          {state.errors?.validation?.formErrors && (
+            <FieldError>
+              {state.errors.validation.formErrors.join(", ")}
+            </FieldError>
+          )}
+          {state.errors?.server && (
+            <FieldError>{state.errors.server}</FieldError>
           )}
         </Field>
       </FieldGroup>
