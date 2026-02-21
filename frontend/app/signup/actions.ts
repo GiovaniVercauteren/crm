@@ -41,7 +41,7 @@ export async function signUpAction(
   } catch (error) {
     return {
       values,
-      errors: { server: handleError(error) },
+      errors: { server: await handleError(error) },
       success: false,
     };
   }
