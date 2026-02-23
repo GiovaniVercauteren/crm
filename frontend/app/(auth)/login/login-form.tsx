@@ -34,6 +34,10 @@ export default function LoginForm() {
   return (
     <Form action={formAction}>
       <FieldSet>
+        <FieldLegend className="text-lg">Login to Your Account</FieldLegend>
+        <FieldDescription>
+          Please enter your email and password to login.
+        </FieldDescription>
         <FieldGroup>
           <Field>
             <FieldLabel htmlFor="email">Email</FieldLabel>
