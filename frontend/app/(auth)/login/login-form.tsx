@@ -2,9 +2,12 @@
 
 import {
   Field,
+  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldLegend,
+  FieldSet,
 } from "@/components/ui/field";
 import Form from "next/form";
 import { useActionState } from "react";
@@ -30,51 +33,56 @@ export default function LoginForm() {
 
   return (
     <Form action={formAction}>
-      <FieldGroup>
-        <Field>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            defaultValue={state.values?.email}
-            disabled={pending}
-          />
-          {state.errors?.validation?.fieldErrors?.email && (
-            <FieldError>
-              {state.errors.validation.fieldErrors.email.join(", ")}
-            </FieldError>
-          )}
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="password">Password</FieldLabel>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            defaultValue={state.values?.password}
-            disabled={pending}
-          />
-          {state.errors?.validation?.fieldErrors?.password && (
-            <FieldError>
-              {state.errors.validation.fieldErrors.password.join(", ")}
-            </FieldError>
-          )}
-        </Field>
-        <Field>
-          {state.errors?.validation?.formErrors && (
-            <FieldError>
-              {state.errors.validation.formErrors.join(", ")}
-            </FieldError>
-          )}
-          {state.errors?.server && (
-            <FieldError>{state.errors.server}</FieldError>
-          )}
-        </Field>
-      </FieldGroup>
-      <Button type="submit" disabled={pending}>
-        {pending ? <Spinner /> : "Login"}
-      </Button>
+      <FieldSet>
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              defaultValue={state.values?.email}
+              disabled={pending}
+            />
+            {state.errors?.validation?.fieldErrors?.email && (
+              <FieldError>
+                {state.errors.validation.fieldErrors.email.join(", ")}
+              </FieldError>
+            )}
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              defaultValue={state.values?.password}
+              disabled={pending}
+            />
+            {state.errors?.validation?.fieldErrors?.password && (
+              <FieldError>
+                {state.errors.validation.fieldErrors.password.join(", ")}
+              </FieldError>
+            )}
+          </Field>
+          <Field>
+            {state.errors?.validation?.formErrors && (
+              <FieldError>
+                {state.errors.validation.formErrors.join(", ")}
+              </FieldError>
+            )}
+            {state.errors?.server && (
+              <FieldError>{state.errors.server}</FieldError>
+            )}
+          </Field>
+        </FieldGroup>
+        <Button type="submit" disabled={pending}>
+          {pending ? <Spinner /> : "Login"}
+        </Button>
+        <FieldDescription>
+          Don&apos;t have an account? <a href="/signup">Register here</a>.
+        </FieldDescription>
+      </FieldSet>
     </Form>
   );
 }
