@@ -1,10 +1,9 @@
 import { lustriaRegular } from "@/app/layout";
 import Image from "next/image";
-import styles from "./oasezorg-logo.module.css";
 
-export default function OasezorgLogo() {
+export default function OasezorgLogo({ className }: { className?: string }) {
   return (
-    <div className="flex justify-center m-4">
+    <div className={`flex justify-center m-4 ${className}`}>
       <Image
         src="/oasezorg_logo.svg"
         alt="Oasezorg Logo"

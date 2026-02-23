@@ -1,11 +1,13 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import LoginForm from "./login-form";
 
 export default function LoginPage() {
   return (
-    <div>
-      <h1>Login Page</h1>
-      <p>Please enter your credentials to log in.</p>
-      <LoginForm />
-    </div>
+    <Card className="m-4 mt-8 md:max-w-lg md:w-lg">
+      <CardHeader>Login</CardHeader>
+      <CardContent>
+        <LoginForm />
+      </CardContent>
+    </Card>
   );
 }
