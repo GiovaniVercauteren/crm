@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { FormState } from "@/lib/types";
 import { SignInDto } from "@/lib/client";
+import Link from "next/link";
 
 export default function LoginForm() {
   const [state, formAction, pending] = useActionState<
@@ -84,7 +85,7 @@ export default function LoginForm() {
           {pending ? <Spinner /> : "Login"}
         </Button>
         <FieldDescription>
-          Don&apos;t have an account? <a href="/signup">Register here</a>.
+          Don&apos;t have an account? <Link href="/signup">Sign up here</Link>.
         </FieldDescription>
       </FieldSet>
     </Form>

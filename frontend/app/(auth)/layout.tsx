@@ -1,7 +1,5 @@
 import OasezorgLogo from "@/components/common/oasezorg-logo";
 import ThemeToggle from "@/components/common/theme-toggle";
-import { Card, CardContent } from "@/components/ui/card";
-import { lustriaRegular } from "../layout";
 
 export default function AuthLayout({
   children,
@@ -14,7 +12,7 @@ export default function AuthLayout({
         <ThemeToggle />
       </div>
       <section className="mt-16">
-        <OasezorgLogo />
+        <OasezorgLogo height={128} />
       </section>
       <section className="flex justify-center">{children}</section>
     </div>
