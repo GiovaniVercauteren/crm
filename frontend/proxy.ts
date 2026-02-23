@@ -26,5 +26,7 @@ export default async function proxy(req: NextRequest) {
 
 // Routes Proxy should not run on
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$|.*\\.svg$).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|.*\\.png$|.*\\.svg$|.*\\.ico$).*)",
+  ],
 };
