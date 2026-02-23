@@ -20,7 +20,7 @@ export default function AuthLayout({
         {children}
       </section>
       <section className="hidden md:block md:w-1/2 md:h-full md:p-8">
-        <Card className="md:h-full md:flex md:items-center md:justify-center md:bg-linear-to-b from-rose-200/50 to-rose-200">
+        <Card className="md:h-full md:flex md:items-center md:justify-center md:bg-linear-to-b from-rose-200/66 to-rose-200">
           <CardContent className="flex flex-col items-center gap-4">
             <OasezorgLogo className="md:scale-125 lg:scale-175" />
             <span
