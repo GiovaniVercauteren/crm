@@ -12,7 +12,7 @@ export default function AuthLayout({
         <ThemeToggle />
       </div>
       <section className="md:hidden md:w-1/2">
-        <OasezorgLogo width={64} height={64} />
+        <OasezorgLogo />
       </section>
       <section className="md:w-1/2">{children}</section>
       <section className="hidden md:block md:w-1/2">SideBanner</section>
