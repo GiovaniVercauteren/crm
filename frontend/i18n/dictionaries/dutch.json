@@ -32,6 +32,7 @@
     "user": "Gebruikersoverzicht",
     "settings": "Instellingen",
     "profile": "Profiel",
-    "admin": "Beheer"
+    "admin": "Beheer",
+    "user-management": "Gebruikersbeheer"
   }
 }

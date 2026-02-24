@@ -2,11 +2,11 @@
 
 import { lustriaRegular } from "@/app/fonts";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export default function OasezorgLogo({ className }: { className?: string }) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const fontSize = `${dimensions.height * 0.66}px`;
+  const [fontSize, setFontSize] = useState(0);
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,6 +22,15 @@ export default function OasezorgLogo({ className }: { className?: string }) {
       return () => observer.disconnect();
     }
   }, []);
+
+  useLayoutEffect(() => {
+    if (imageContainerRef.current) {
+      const { width, height } =
+        imageContainerRef.current.getBoundingClientRect();
+      setDimensions({ width, height });
+      setFontSize(height * 0.66);
+    }
+  }, [dimensions.height]);
 
   return (
     <div className={`flex items-center m-4 ${className ?? ""}`}>

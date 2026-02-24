@@ -32,6 +32,7 @@
     "user": "User overview",
     "settings": "Settings",
     "profile": "Profile",
-    "admin": "Admin"
+    "admin": "Admin",
+    "user-management": "User Management"
   }
 }
