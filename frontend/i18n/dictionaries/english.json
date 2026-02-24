@@ -21,5 +21,11 @@
     "signupButton": "Sign Up",
     "haveAccount": "Already have an account?",
     "login": "Login"
+  },
+  "RouteSegments": {
+    "dashboard": "Dashboard",
+    "user": "User overview",
+    "settings": "Settings",
+    "profile": "Profile"
   }
 }

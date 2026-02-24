@@ -1,7 +1,11 @@
+import MainSidebar from "./_components/main-sidebar";
+import PathBreadcrumbs from "./_components/path-breadcrumbs";
+
 export default function CrmLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
-      <section>{children}</section>
-    </div>
+    <MainSidebar>
+      <PathBreadcrumbs />
+      <div>{children}</div>
+    </MainSidebar>
   );
 }

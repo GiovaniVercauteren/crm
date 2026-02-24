@@ -21,5 +21,11 @@
     "signupButton": "Aanmelden",
     "haveAccount": "Heeft u al een account?",
     "login": "Inloggen"
+  },
+  "RouteSegments": {
+    "dashboard": "Dashboard",
+    "user": "Gebruikersoverzicht",
+    "settings": "Instellingen",
+    "profile": "Profiel"
   }
 }
