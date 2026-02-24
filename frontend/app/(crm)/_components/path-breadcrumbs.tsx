@@ -15,11 +15,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 
+const ROOT_SEGMENT = "dashboard";
+
 export default function PathBreadcrumbs() {
   const path = usePathname();
   const t = useTranslations("RouteSegments");
 
   const segments = path.split("/").filter(Boolean);
+  if (segments.length === 0) {
+    segments.push(ROOT_SEGMENT);
+  }
 
   return (
     <section className="flex items-center gap-2 shrink-0">

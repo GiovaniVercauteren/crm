@@ -1,4 +1,9 @@
 {
+  "NotFound": {
+    "title": "Pagina niet gevonden",
+    "description": "De pagina die u zoekt bestaat niet.",
+    "homeButton": "Breng me in veiligheid"
+  },
   "LoginPage": {
     "title": "Log in op uw account",
     "description": "Voer uw e-mailadres en wachtwoord in om in te loggen.",
@@ -26,6 +31,7 @@
     "dashboard": "Dashboard",
     "user": "Gebruikersoverzicht",
     "settings": "Instellingen",
-    "profile": "Profiel"
+    "profile": "Profiel",
+    "admin": "Beheer"
   }
 }

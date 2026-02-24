@@ -1,4 +1,9 @@
 {
+  "NotFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist.",
+    "homeButton": "Bring me to safety"
+  },
   "LoginPage": {
     "title": "Login to Your Account",
     "description": "Please enter your email and password to login.",
@@ -26,6 +31,7 @@
     "dashboard": "Dashboard",
     "user": "User overview",
     "settings": "Settings",
-    "profile": "Profile"
+    "profile": "Profile",
+    "admin": "Admin"
   }
 }
