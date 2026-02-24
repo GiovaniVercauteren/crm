@@ -44,7 +44,7 @@ export default function OasezorgLogo({ className }: { className?: string }) {
         />
       </div>
       <span
-        className={`${lustriaRegular.className} font-bold`}
+        className={`${lustriaRegular.className} select-none font-bold`}
         style={{ fontSize }}
       >
         <span className="text-green">Oase</span>

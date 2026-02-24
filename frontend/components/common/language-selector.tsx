@@ -9,7 +9,9 @@ import {
 } from "../ui/select";
 import { getCurrentLanguage, setLanguage } from "./language-selector.actions";
 
-export default function LanguageSelector() {
+export default function LanguageSelector({
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   const [currentLanguage, setCurrentLanguage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -26,14 +28,19 @@ export default function LanguageSelector() {
   };
 
   return (
-    <Select value={currentLanguage ?? ""} onValueChange={handleLanguageChange}>
-      <SelectTrigger className="px-2 py-1 border rounded">
-        <SelectValue placeholder="Select language" />
-      </SelectTrigger>
-      <SelectContent position="popper">
-        <SelectItem value="english">English</SelectItem>
-        <SelectItem value="dutch">Dutch</SelectItem>
-      </SelectContent>
-    </Select>
+    <div {...props}>
+      <Select
+        value={currentLanguage ?? ""}
+        onValueChange={handleLanguageChange}
+      >
+        <SelectTrigger className="w-full px-2 py-1 border rounded">
+          <SelectValue placeholder="Select language" />
+        </SelectTrigger>
+        <SelectContent position="popper">
+          <SelectItem value="english">English</SelectItem>
+          <SelectItem value="dutch">Dutch</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
   );
 }

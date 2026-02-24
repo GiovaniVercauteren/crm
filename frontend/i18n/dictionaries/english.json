@@ -29,7 +29,7 @@
   },
   "RouteSegments": {
     "dashboard": "Dashboard",
-    "user": "User overview",
+    "account-management": "Account Management",
     "settings": "Settings",
     "profile": "Profile",
     "admin": "Admin",
