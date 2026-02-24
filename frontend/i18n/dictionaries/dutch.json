@@ -1,0 +1,25 @@
+{
+  "LoginPage": {
+    "title": "Log in op uw account",
+    "description": "Voer uw e-mailadres en wachtwoord in om in te loggen.",
+    "emailLabel": "E-mailadres",
+    "passwordLabel": "Wachtwoord",
+    "rememberMe": "Onthoud mij",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "loginButton": "Inloggen",
+    "noAccount": "Heeft u nog geen account?",
+    "signUp": "Aanmelden"
+  },
+  "SignupPage": {
+    "title": "Maak uw account aan",
+    "description": "Vul het formulier in om een account aan te maken.",
+    "firstNameLabel": "Voornaam",
+    "lastNameLabel": "Achternaam",
+    "emailLabel": "E-mailadres",
+    "passwordLabel": "Wachtwoord",
+    "confirmPasswordLabel": "Bevestig wachtwoord",
+    "signupButton": "Aanmelden",
+    "haveAccount": "Heeft u al een account?",
+    "login": "Inloggen"
+  }
+}

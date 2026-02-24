@@ -1,0 +1,25 @@
+{
+  "LoginPage": {
+    "title": "Login to Your Account",
+    "description": "Please enter your email and password to login.",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "rememberMe": "Remember Me",
+    "forgotPassword": "Forgot Password?",
+    "loginButton": "Login",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up"
+  },
+  "SignupPage": {
+    "title": "Create Your Account",
+    "description": "Please fill in the form to create an account.",
+    "firstNameLabel": "First Name",
+    "lastNameLabel": "Last Name",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "confirmPasswordLabel": "Confirm Password",
+    "signupButton": "Sign Up",
+    "haveAccount": "Already have an account?",
+    "login": "Login"
+  }
+}

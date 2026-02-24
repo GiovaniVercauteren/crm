@@ -18,6 +18,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { FormState } from "@/lib/types";
 import { SignInDto } from "@/lib/client";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function LoginForm() {
   const [state, formAction, pending] = useActionState<
@@ -31,17 +32,16 @@ export default function LoginForm() {
     errors: null,
     success: false,
   });
+  const t = useTranslations("LoginPage");
 
   return (
     <Form action={formAction}>
       <FieldSet>
-        <FieldLegend className="text-lg">Login to Your Account</FieldLegend>
-        <FieldDescription>
-          Please enter your email and password to login.
-        </FieldDescription>
+        <FieldLegend className="text-lg">{t("title")}</FieldLegend>
+        <FieldDescription>{t("description")}</FieldDescription>
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <FieldLabel htmlFor="email">{t("emailLabel")}</FieldLabel>
             <Input
               id="email"
               name="email"
@@ -56,7 +56,7 @@ export default function LoginForm() {
             )}
           </Field>
           <Field>
-            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <FieldLabel htmlFor="password">{t("passwordLabel")}</FieldLabel>
             <Input
               id="password"
               name="password"
@@ -82,10 +82,10 @@ export default function LoginForm() {
           </Field>
         </FieldGroup>
         <Button type="submit" disabled={pending}>
-          {pending ? <Spinner /> : "Login"}
+          {pending ? <Spinner /> : t("loginButton")}
         </Button>
         <FieldDescription>
-          Don&apos;t have an account? <Link href="/signup">Sign up here</Link>.
+          {t("noAccount")} <Link href="/signup">{t("signUp")}</Link>.
         </FieldDescription>
       </FieldSet>
     </Form>

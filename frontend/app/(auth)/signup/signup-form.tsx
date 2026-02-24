@@ -18,6 +18,7 @@ import { SignUpDto } from "@/lib/client";
 import { FormState } from "@/lib/types";
 import { signUpAction } from "./actions";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function SignupForm() {
   const [state, formAction, pending] = useActionState<
@@ -35,16 +36,16 @@ export default function SignupForm() {
     success: false,
   });
 
+  const t = useTranslations("SignupPage");
+
   return (
     <Form action={formAction}>
       <FieldSet>
-        <FieldLegend className="text-lg">Create an Account</FieldLegend>
-        <FieldDescription>
-          Please fill out the form below to create an account.
-        </FieldDescription>
+        <FieldLegend className="text-lg">{t("title")}</FieldLegend>
+        <FieldDescription>{t("description")}</FieldDescription>
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="firstName">First Name</FieldLabel>
+            <FieldLabel htmlFor="firstName">{t("firstNameLabel")}</FieldLabel>
             <Input
               id="firstName"
               name="firstName"
@@ -58,7 +59,7 @@ export default function SignupForm() {
             )}
           </Field>
           <Field>
-            <FieldLabel htmlFor="lastName">Last Name</FieldLabel>
+            <FieldLabel htmlFor="lastName">{t("lastNameLabel")}</FieldLabel>
             <Input
               id="lastName"
               name="lastName"
@@ -72,7 +73,7 @@ export default function SignupForm() {
             )}
           </Field>
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <FieldLabel htmlFor="email">{t("emailLabel")}</FieldLabel>
             <Input
               id="email"
               name="email"
@@ -86,7 +87,7 @@ export default function SignupForm() {
             )}
           </Field>
           <Field>
-            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <FieldLabel htmlFor="password">{t("passwordLabel")}</FieldLabel>
             <Input
               id="password"
               name="password"
@@ -100,7 +101,9 @@ export default function SignupForm() {
             )}
           </Field>
           <Field>
-            <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+            <FieldLabel htmlFor="confirmPassword">
+              {t("confirmPasswordLabel")}
+            </FieldLabel>
             <Input
               id="confirmPassword"
               name="confirmPassword"
@@ -125,10 +128,10 @@ export default function SignupForm() {
           </Field>
         </FieldGroup>
         <Button type="submit" disabled={pending}>
-          {pending ? <Spinner /> : "Sign Up"}
+          {pending ? <Spinner /> : t("signupButton")}
         </Button>
         <FieldDescription>
-          Already have an account? <Link href="/login">Login here</Link>.
+          {t("haveAccount")} <Link href="/login">{t("login")}</Link>.
         </FieldDescription>
       </FieldSet>
     </Form>
