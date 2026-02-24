@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/dist/server/request/cookies";
+import { redirect } from "next/navigation";
 
 export async function logoutAction() {
   try {
@@ -9,4 +10,5 @@ export async function logoutAction() {
   } catch (error) {
     console.error("Logout failed:", error);
   }
+  redirect("/login");
 }

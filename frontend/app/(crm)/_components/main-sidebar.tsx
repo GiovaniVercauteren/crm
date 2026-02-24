@@ -1,3 +1,5 @@
+"use client";
+
 import LanguageSelector from "@/components/common/language-selector";
 import ThemeToggle from "@/components/common/theme-toggle";
 import {
@@ -16,13 +18,20 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import OasezorgLogo from "@/components/common/oasezorg-logo";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { logoutAction } from "@/app/_actions/logout.action";
+import { LogOut } from "lucide-react";
 
 export default function MainSidebar({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const t = useTranslations("RouteSegments");
+  const t = useTranslations();
+
+  const handleLogout = () => {
+    logoutAction();
+  };
 
   return (
     <SidebarProvider>
@@ -34,14 +43,18 @@ export default function MainSidebar({
         <SidebarContent>
           {routes.map((group, index) => (
             <SidebarGroup key={index}>
-              {group.header && <SidebarHeader>{t(group.header)}</SidebarHeader>}
+              {group.header && (
+                <SidebarHeader className="text-sm font-semibold uppercase text-muted-foreground">
+                  {t(`RouteSegments.${group.header}`)}
+                </SidebarHeader>
+              )}
               <SidebarMenu>
                 {group.items?.map((item, idx) => (
                   <SidebarMenuItem key={idx}>
                     <SidebarMenuButton asChild>
                       <Link href={item.href}>
                         {item.icon}
-                        {t(item.name)}
+                        {t(`RouteSegments.${item.name}`)}
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -51,6 +64,15 @@ export default function MainSidebar({
           ))}
         </SidebarContent>
         <SidebarFooter>
+          <Button
+            onClick={handleLogout}
+            variant="ghost"
+            className="w-full mb-2"
+            size="sm"
+          >
+            <LogOut />
+            {t("Auth.logout")}
+          </Button>
           <div className="flex items-center space-x-4">
             <LanguageSelector className="flex-1 w-full" />
             <ThemeToggle />

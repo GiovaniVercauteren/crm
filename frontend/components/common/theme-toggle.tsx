@@ -16,7 +16,7 @@ export default function ColorSchemeToggle() {
 
   return (
     <Button
-      variant="ghost"
+      variant="outline"
       onClick={() =>
         setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"))
       }
