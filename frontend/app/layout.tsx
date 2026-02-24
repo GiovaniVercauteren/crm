@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
-import { Lustria } from "next/font/google";
-import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import ThemeToggle from "@/components/common/theme-toggle";
-
-export const lustriaRegular = Lustria({
-  weight: "400",
-  variable: "--font-lustria-regular",
-});
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "CRM Application",

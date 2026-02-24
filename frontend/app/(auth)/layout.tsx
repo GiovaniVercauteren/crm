@@ -11,8 +11,8 @@ export default function AuthLayout({
       <div className="fixed top-0 right-0">
         <ThemeToggle />
       </div>
-      <section className="mt-16">
-        <OasezorgLogo height={128} />
+      <section className="flex justify-center mt-16">
+        <OasezorgLogo className="h-20 md:h-32" />
       </section>
       <section className="flex justify-center">{children}</section>
     </div>
