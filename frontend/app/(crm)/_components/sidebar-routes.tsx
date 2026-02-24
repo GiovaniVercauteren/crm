@@ -58,3 +58,5 @@ export const routes: SidebarNavigationGroup[] = [
     items: adminRoutes,
   },
 ];
+
+// TODO: Add user role based route filtering, e.g. only show admin routes to admin users
