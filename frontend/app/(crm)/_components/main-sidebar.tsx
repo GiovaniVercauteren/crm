@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { logoutAction } from "@/app/_actions/logout.action";
 import { LogOut } from "lucide-react";
 import RoleProtected from "@/components/common/role-protected";
+import { useRouter } from "next/navigation";
 
 export default function MainSidebar({
   children,
@@ -29,9 +30,11 @@ export default function MainSidebar({
   children: React.ReactNode;
 }) {
   const t = useTranslations();
+  const router = useRouter();
 
-  const handleLogout = () => {
-    logoutAction();
+  const handleLogout = async () => {
+    await logoutAction();
+    router.push("/login");
   };
 
   return (
