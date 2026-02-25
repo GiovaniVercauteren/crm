@@ -41,6 +41,16 @@ export class UsersService {
     return updatedUser;
   }
 
+  async findOneById(id: number): Promise<User | undefined> {
+    const user = await this.drizzleService.db
+      .select()
+      .from(databaseSchema.users)
+      .where(eq(databaseSchema.users.id, id))
+      .limit(1)
+      .then((rows) => rows.at(0));
+    return user;
+  }
+
   async findOneByEmail(email: string): Promise<User | undefined> {
     const user = await this.drizzleService.db
       .select()

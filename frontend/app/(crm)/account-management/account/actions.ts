@@ -1,16 +1,16 @@
 "use server";
 
-import { updateAccount } from "@/dal/endpoints/account";
+import { getAccount, updateAccount } from "@/dal/endpoints/account";
 import { getCurrentUser } from "@/dal/endpoints/auth";
 import { UpdateUserDto } from "@/lib/client";
 import { throwServerActionError } from "@/lib/utils";
 
-export async function fetchProfileAction() {
+export async function fetchAccountAction() {
   try {
-    const user = await getCurrentUser();
+    const user = await getAccount();
     return user;
   } catch (error) {
-    console.error("Failed to fetch user profile:", error);
+    await throwServerActionError(error);
   }
 }
 

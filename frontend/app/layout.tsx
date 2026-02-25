@@ -3,6 +3,7 @@ import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "CRM Application",
@@ -24,7 +25,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider>
-            <TooltipProvider>{children}</TooltipProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster position="top-center" />
+            </TooltipProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

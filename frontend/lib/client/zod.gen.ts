@@ -74,6 +74,14 @@ export const zVerifyEmailData = z.object({
     query: z.optional(z.never())
 });
 
+export const zGetAccountData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export const zGetAccountResponse = zUserEntity;
+
 export const zUpdateAccountData = z.object({
     body: zUpdateUserDto,
     path: z.optional(z.never()),

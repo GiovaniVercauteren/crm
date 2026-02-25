@@ -106,6 +106,19 @@ export type VerifyEmailResponses = {
     200: unknown;
 };
 
+export type GetAccountData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/account';
+};
+
+export type GetAccountResponses = {
+    200: UserEntity;
+};
+
+export type GetAccountResponse = GetAccountResponses[keyof GetAccountResponses];
+
 export type UpdateAccountData = {
     body: UpdateUserDto;
     path?: never;

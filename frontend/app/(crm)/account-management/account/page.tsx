@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { fetchProfileAction } from "./actions";
+import { fetchAccountAction } from "./actions";
 import { UserEntity } from "@/lib/client";
 import AccountForm from "./account-form";
 
@@ -10,11 +10,15 @@ export default function AccountPage() {
 
   const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
+  function fetchAccount() {
     startTransition(async () => {
-      const data = await fetchProfileAction();
+      const data = await fetchAccountAction();
       setProfile(data);
     });
+  }
+
+  useEffect(() => {
+    fetchAccount();
   }, []);
 
   if (isPending || !profile) {

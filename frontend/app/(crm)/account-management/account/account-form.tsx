@@ -20,6 +20,8 @@ import { updateAccountAction } from "./actions";
 import { handleError } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function AccountForm({ user }: { user: UserEntity }) {
   const form = useForm({
@@ -35,12 +37,17 @@ export default function AccountForm({ user }: { user: UserEntity }) {
     try {
       const updatedUser = await updateAccountAction(data);
       form.reset(updatedUser);
+      toast.success("Account updated successfully");
     } catch (error) {
       form.setError("root.server", {
         message: await handleError(error),
       });
     }
   }
+
+  useEffect(() => {
+    form.reset(user);
+  }, [user, form]);
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -78,12 +85,12 @@ export default function AccountForm({ user }: { user: UserEntity }) {
             <FieldLabel>
               {t("emailLabel")}
               {user.isVerified ? (
-                <Badge variant="default">
+                <Badge className="bg-green-700 dark:bg-green-800">
                   <BadgeCheck className="me-1" size={16} />
                   {t("emailVerifiedLabel")}
                 </Badge>
               ) : (
-                <Badge variant="destructive">
+                <Badge className="bg-red-700 dark:bg-red-800 text-white">
                   <BadgeX className="me-1" size={16} />
                   {t("emailNotVerifiedLabel")}
                 </Badge>
