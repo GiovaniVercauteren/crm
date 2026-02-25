@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { logoutAction } from "@/app/_actions/logout.action";
 import { LogOut } from "lucide-react";
+import RoleProtected from "@/components/common/role-protected";
 
 export default function MainSidebar({
   children,
@@ -42,25 +43,27 @@ export default function MainSidebar({
         </SidebarHeader>
         <SidebarContent>
           {routes.map((group, index) => (
-            <SidebarGroup key={index}>
-              {group.header && (
-                <SidebarHeader className="text-sm font-semibold uppercase text-muted-foreground">
-                  {t(`RouteSegments.${group.header}`)}
-                </SidebarHeader>
-              )}
-              <SidebarMenu>
-                {group.items?.map((item, idx) => (
-                  <SidebarMenuItem key={idx}>
-                    <SidebarMenuButton asChild>
-                      <Link href={item.href}>
-                        {item.icon}
-                        {t(`RouteSegments.${item.name}`)}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroup>
+            <RoleProtected key={index} requiredRole={group.requiredRole}>
+              <SidebarGroup>
+                {group.header && (
+                  <SidebarHeader className="text-sm font-semibold uppercase text-muted-foreground">
+                    {t(`RouteSegments.${group.header}`)}
+                  </SidebarHeader>
+                )}
+                <SidebarMenu>
+                  {group.items?.map((item, idx) => (
+                    <SidebarMenuItem key={idx}>
+                      <SidebarMenuButton asChild>
+                        <Link href={item.href}>
+                          {item.icon}
+                          {t(`RouteSegments.${item.name}`)}
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroup>
+            </RoleProtected>
           ))}
         </SidebarContent>
         <SidebarFooter>

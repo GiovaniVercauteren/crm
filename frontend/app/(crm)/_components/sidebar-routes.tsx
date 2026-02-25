@@ -1,3 +1,4 @@
+import { Role } from "@/lib/client/types.gen";
 import {
   BrickWallShield,
   CircleUser,
@@ -8,6 +9,7 @@ import {
 export type SidebarNavigationGroup = {
   header?: string;
   items?: SidebarNavigationItem[];
+  requiredRole?: Role;
 };
 
 export type SidebarNavigationItem = {
@@ -37,7 +39,7 @@ const accountManagementRoutes: SidebarNavigationItem[] = [
   },
 ];
 
-const adminRoutes = [
+const adminRoutes: SidebarNavigationItem[] = [
   {
     name: "admin",
     href: "/admin",
@@ -56,6 +58,7 @@ export const routes: SidebarNavigationGroup[] = [
   {
     header: "admin",
     items: adminRoutes,
+    requiredRole: "admin",
   },
 ];
 
