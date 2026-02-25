@@ -8,4 +8,6 @@ export class UserEntity {
   lastName: string;
   @ApiProperty({ enum: ROLE_VALUES, enumName: 'Role' })
   role: Role;
+  isVerified: boolean;
+  isBlocked: boolean;
 }

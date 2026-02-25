@@ -63,6 +63,8 @@ export class AuthGuard implements CanActivate {
         firstName: payload.firstName,
         lastName: payload.lastName,
         role: payload.role,
+        isVerified: payload.isVerified,
+        isBlocked: payload.isBlocked,
       };
     } catch {
       throw new UnauthorizedException();

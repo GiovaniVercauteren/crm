@@ -36,6 +36,8 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
       role: user.role,
+      isVerified: user.isVerified,
+      isBlocked: user.isBlocked,
     };
 
     return await this.jwtService.signAsync<JwtCustomPayload>(payload);

@@ -12,6 +12,8 @@ export interface JwtCustomPayload {
   firstName: string;
   lastName: string;
   role: Role;
+  isVerified: boolean;
+  isBlocked: boolean;
 }
 
 export interface JwtStandardPayload {

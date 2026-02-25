@@ -22,7 +22,9 @@ export const zUserEntity = z.object({
     id: z.number(),
     email: z.string(),
     firstName: z.string(),
-    lastName: z.string()
+    lastName: z.string(),
+    isVerified: z.boolean(),
+    isBlocked: z.boolean()
 });
 
 export const zSignInData = z.object({

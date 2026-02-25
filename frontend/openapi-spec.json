@@ -178,6 +178,12 @@
           },
           "lastName": {
             "type": "string"
+          },
+          "isVerified": {
+            "type": "boolean"
+          },
+          "isBlocked": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -185,7 +191,9 @@
           "id",
           "email",
           "firstName",
-          "lastName"
+          "lastName",
+          "isVerified",
+          "isBlocked"
         ]
       }
     }

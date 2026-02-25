@@ -9,6 +9,7 @@ export const users = pgTable('users', {
   password: text('password').notNull().default(''),
   salt: text('salt').notNull().default(''),
   role: text('role').$type<Role>().notNull().default('user'),
+  isVerified: boolean('is_verified').notNull().default(false),
   isBlocked: boolean('is_blocked').notNull().default(false),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at')

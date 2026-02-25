@@ -25,6 +25,8 @@ export type UserEntity = {
     email: string;
     firstName: string;
     lastName: string;
+    isVerified: boolean;
+    isBlocked: boolean;
 };
 
 export type SignInData = {
