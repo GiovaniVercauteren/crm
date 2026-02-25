@@ -90,6 +90,65 @@
           "Auth"
         ]
       }
+    },
+    "/auth/send-verification-email": {
+      "post": {
+        "operationId": "sendVerificationEmail",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/verify-email": {
+      "post": {
+        "operationId": "verifyEmail",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/account": {
+      "patch": {
+        "operationId": "updateAccount",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserEntity"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Account"
+        ]
+      }
     }
   },
   "info": {
@@ -171,13 +230,18 @@
             "type": "number"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "format": "email"
           },
           "firstName": {
-            "type": "string"
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 255
           },
           "lastName": {
-            "type": "string"
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 255
           },
           "isVerified": {
             "type": "boolean"
@@ -195,6 +259,21 @@
           "isVerified",
           "isBlocked"
         ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 255
+          },
+          "lastName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 255
+          }
+        }
       }
     }
   }

@@ -28,8 +28,8 @@ const mainRoutes: SidebarNavigationItem[] = [
 
 const accountManagementRoutes: SidebarNavigationItem[] = [
   {
-    name: "profile",
-    href: "/account-management/profile",
+    name: "account",
+    href: "/account-management/account",
     icon: <CircleUser />,
   },
   {

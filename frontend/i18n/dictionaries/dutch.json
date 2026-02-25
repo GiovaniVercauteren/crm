@@ -4,6 +4,14 @@
     "login": "Inloggen",
     "signup": "Aanmelden"
   },
+  "RouteSegments": {
+    "dashboard": "Dashboard",
+    "account-management": "Accountbeheer",
+    "settings": "Instellingen",
+    "account": "Account",
+    "admin": "Beheer",
+    "user-management": "Gebruikersbeheer"
+  },
   "NotFound": {
     "title": "Pagina niet gevonden",
     "description": "De pagina die u zoekt bestaat niet.",
@@ -32,22 +40,15 @@
     "haveAccount": "Heeft u al een account?",
     "login": "Inloggen"
   },
-  "ProfilePage": {
-    "title": "Uw profiel",
+  "AccountPage": {
+    "title": "Uw account",
     "description": "Beheer uw accountinformatie en instellingen.",
     "firstNameLabel": "Voornaam",
     "lastNameLabel": "Achternaam",
     "emailLabel": "E-mailadres",
-    "updateButton": "Profiel bijwerken",
+    "updateButton": "Account bijwerken",
     "emailVerifiedLabel": "Geverifieerd",
-    "emailNotVerifiedLabel": "Ongeverifieerd"
-  },
-  "RouteSegments": {
-    "dashboard": "Dashboard",
-    "account-management": "Accountbeheer",
-    "settings": "Instellingen",
-    "profile": "Profiel",
-    "admin": "Beheer",
-    "user-management": "Gebruikersbeheer"
+    "emailNotVerifiedLabel": "Ongeverifieerd",
+    "save": "Opslaan"
   }
 }

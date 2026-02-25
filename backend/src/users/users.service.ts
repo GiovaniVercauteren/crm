@@ -4,6 +4,7 @@ import { databaseSchema, users } from 'src/database/database-schema';
 import { DrizzleService } from 'src/database/drizzle.service';
 import { generateSalt, hashPassword } from 'src/lib/password.util';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 export type User = typeof databaseSchema.users.$inferSelect;
 
@@ -29,6 +30,15 @@ export class UsersService {
       .values({ ...data, password: hashedPassword, salt })
       .returning();
     return newUser;
+  }
+
+  async updateUser(id: number, data: UpdateUserDto): Promise<User> {
+    const [updatedUser] = await this.drizzleService.db
+      .update(databaseSchema.users)
+      .set(data)
+      .where(eq(databaseSchema.users.id, id))
+      .returning();
+    return updatedUser;
   }
 
   async findOneByEmail(email: string): Promise<User | undefined> {

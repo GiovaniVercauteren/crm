@@ -20,11 +20,16 @@ export const zRole = z.enum(['admin', 'user']);
 export const zUserEntity = z.object({
     role: zRole,
     id: z.number(),
-    email: z.string(),
-    firstName: z.string(),
-    lastName: z.string(),
+    email: z.email(),
+    firstName: z.string().min(2).max(255),
+    lastName: z.string().min(2).max(255),
     isVerified: z.boolean(),
     isBlocked: z.boolean()
+});
+
+export const zUpdateUserDto = z.object({
+    firstName: z.optional(z.string().min(2).max(255)),
+    lastName: z.optional(z.string().min(2).max(255))
 });
 
 export const zSignInData = z.object({
@@ -56,3 +61,23 @@ export const zGetCurrentUserData = z.object({
 });
 
 export const zGetCurrentUserResponse = zUserEntity;
+
+export const zSendVerificationEmailData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export const zVerifyEmailData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export const zUpdateAccountData = z.object({
+    body: zUpdateUserDto,
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export const zUpdateAccountResponse = zUserEntity;

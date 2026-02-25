@@ -29,6 +29,11 @@ export type UserEntity = {
     isBlocked: boolean;
 };
 
+export type UpdateUserDto = {
+    firstName?: string;
+    lastName?: string;
+};
+
 export type SignInData = {
     body: SignInDto;
     path?: never;
@@ -78,3 +83,38 @@ export type GetCurrentUserResponses = {
 };
 
 export type GetCurrentUserResponse = GetCurrentUserResponses[keyof GetCurrentUserResponses];
+
+export type SendVerificationEmailData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/send-verification-email';
+};
+
+export type SendVerificationEmailResponses = {
+    200: unknown;
+};
+
+export type VerifyEmailData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/verify-email';
+};
+
+export type VerifyEmailResponses = {
+    200: unknown;
+};
+
+export type UpdateAccountData = {
+    body: UpdateUserDto;
+    path?: never;
+    query?: never;
+    url: '/account';
+};
+
+export type UpdateAccountResponses = {
+    200: UserEntity;
+};
+
+export type UpdateAccountResponse = UpdateAccountResponses[keyof UpdateAccountResponses];

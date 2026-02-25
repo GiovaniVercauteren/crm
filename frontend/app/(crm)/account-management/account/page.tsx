@@ -3,9 +3,9 @@
 import { useEffect, useState, useTransition } from "react";
 import { fetchProfileAction } from "./actions";
 import { UserEntity } from "@/lib/client";
-import ProfileForm from "./profile-form";
+import AccountForm from "./account-form";
 
-export default function ProfilePage() {
+export default function AccountPage() {
   const [profile, setProfile] = useState<UserEntity | undefined>(undefined);
 
   const [isPending, startTransition] = useTransition();
@@ -23,7 +23,7 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <ProfileForm user={profile} />
+      <AccountForm user={profile} />
     </div>
   );
 }
