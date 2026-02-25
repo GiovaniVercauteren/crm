@@ -15,8 +15,20 @@ export const users = pgTable('users', {
   updatedAt: timestamp('updated_at')
     .defaultNow()
     .$onUpdate(() => new Date()),
+  verifiedAt: timestamp('verified_at'),
+});
+
+export const userVerificationTokens = pgTable('user_verification_tokens', {
+  id: serial('id').primaryKey(),
+  userId: serial('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  email: text('email').notNull(),
+  token: text('token').notNull().unique(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
 export const databaseSchema = {
   users,
+  userVerificationTokens,
 };

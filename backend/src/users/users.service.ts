@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { eq } from 'drizzle-orm';
-import { databaseSchema } from 'src/database/database-schema';
+import { and, eq } from 'drizzle-orm';
+import { databaseSchema, users } from 'src/database/database-schema';
 import { DrizzleService } from 'src/database/drizzle.service';
 import { generateSalt, hashPassword } from 'src/lib/password.util';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -37,7 +37,7 @@ export class UsersService {
       .from(databaseSchema.users)
       .where(eq(databaseSchema.users.email, email))
       .limit(1)
-      .then((rows) => rows[0]);
+      .then((rows) => rows.at(0));
     return user;
   }
 
@@ -45,5 +45,21 @@ export class UsersService {
     await this.drizzleService.db
       .delete(databaseSchema.users)
       .where(eq(databaseSchema.users.id, id));
+  }
+
+  async markUserEmailAsVerified(id: number, email: string): Promise<boolean> {
+    const updatedUserId: { updatedId: number }[] = await this.drizzleService.db
+      .update(databaseSchema.users)
+      .set({ isVerified: true })
+      .where(
+        and(
+          eq(databaseSchema.users.id, id),
+          eq(databaseSchema.users.email, email),
+        ),
+      )
+      .returning({ updatedId: users.id });
+
+    // If no rows were updated, it means the user was not found or email did not match
+    return updatedUserId.length === 1;
   }
 }
