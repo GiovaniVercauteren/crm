@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition } from "react";
 import { fetchProfileAction } from "./actions";
 import { UserEntity } from "@/lib/client";
+import ProfileForm from "./profile-form";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserEntity | undefined>(undefined);
@@ -15,18 +16,14 @@ export default function ProfilePage() {
       setProfile(data);
     });
   }, []);
+
+  if (isPending || !profile) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
-      <h1>Profile Page</h1>
-      <p>
-        This is the profile page. You can view your profile information here.
-      </p>
-      {isPending && <p>Loading...</p>}
-      {profile && (
-        <div>
-          <pre>{JSON.stringify(profile, null, 2)}</pre>
-        </div>
-      )}
+      <ProfileForm user={profile} />
     </div>
   );
 }

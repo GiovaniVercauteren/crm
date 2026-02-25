@@ -9,85 +9,92 @@ import {
   FieldLegend,
   FieldSet,
 } from "@/components/ui/field";
-import Form from "next/form";
-import { useActionState } from "react";
 import { loginAction } from "./actions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { FormState } from "@/lib/types";
-import { SignInDto } from "@/lib/client";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { zSignInDto } from "@/lib/client/zod.gen";
+import { SignInDto } from "@/lib/client";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { handleError } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const [state, formAction, pending] = useActionState<
-    FormState<SignInDto>,
-    FormData
-  >(loginAction, {
-    values: {
+  const form = useForm<SignInDto>({
+    resolver: zodResolver(zSignInDto),
+    defaultValues: {
       email: "",
       password: "",
     },
-    errors: null,
-    success: false,
   });
   const t = useTranslations("LoginPage");
+  const router = useRouter();
+
+  async function onSubmit(data: SignInDto) {
+    try {
+      await loginAction(data);
+      router.push("/");
+    } catch (error) {
+      form.setError("root.server", {
+        message: await handleError(error),
+      });
+    }
+  }
 
   return (
-    <Form action={formAction}>
+    <form onSubmit={form.handleSubmit(onSubmit)}>
       <FieldSet>
         <FieldLegend className="text-lg">{t("title")}</FieldLegend>
         <FieldDescription>{t("description")}</FieldDescription>
         <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="email">{t("emailLabel")}</FieldLabel>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              defaultValue={state.values?.email}
-              disabled={pending}
-            />
-            {state.errors?.validation?.fieldErrors?.email && (
-              <FieldError>
-                {state.errors.validation.fieldErrors.email.join(", ")}
-              </FieldError>
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>{t("emailLabel")}</FieldLabel>
+                <Input
+                  id={field.name}
+                  {...field}
+                  type="email"
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.error && <FieldError errors={[fieldState.error]} />}
+              </Field>
             )}
-          </Field>
-          <Field>
-            <FieldLabel htmlFor="password">{t("passwordLabel")}</FieldLabel>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              defaultValue={state.values?.password}
-              disabled={pending}
-            />
-            {state.errors?.validation?.fieldErrors?.password && (
-              <FieldError>
-                {state.errors.validation.fieldErrors.password.join(", ")}
-              </FieldError>
+          />
+          <Controller
+            name="password"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>
+                  {t("passwordLabel")}
+                </FieldLabel>
+                <Input
+                  id={field.name}
+                  {...field}
+                  type="password"
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.error && <FieldError errors={[fieldState.error]} />}
+              </Field>
             )}
-          </Field>
-          <Field>
-            {state.errors?.validation?.formErrors && (
-              <FieldError>
-                {state.errors.validation.formErrors.join(", ")}
-              </FieldError>
-            )}
-            {state.errors?.server && (
-              <FieldError>{state.errors.server}</FieldError>
-            )}
-          </Field>
+          />
         </FieldGroup>
-        <Button type="submit" disabled={pending}>
-          {pending ? <Spinner /> : t("loginButton")}
+        {form.formState.errors.root?.server && (
+          <FieldError errors={[form.formState.errors.root.server]} />
+        )}
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? <Spinner /> : t("loginButton")}
         </Button>
         <FieldDescription>
           {t("noAccount")} <Link href="/signup">{t("signUp")}</Link>.
         </FieldDescription>
       </FieldSet>
-    </Form>
+    </form>
   );
 }

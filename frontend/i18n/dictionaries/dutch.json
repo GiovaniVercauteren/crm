@@ -32,6 +32,16 @@
     "haveAccount": "Heeft u al een account?",
     "login": "Inloggen"
   },
+  "ProfilePage": {
+    "title": "Uw profiel",
+    "description": "Beheer uw accountinformatie en instellingen.",
+    "firstNameLabel": "Voornaam",
+    "lastNameLabel": "Achternaam",
+    "emailLabel": "E-mailadres",
+    "updateButton": "Profiel bijwerken",
+    "emailVerifiedLabel": "Geverifieerd",
+    "emailNotVerifiedLabel": "Ongeverifieerd"
+  },
   "RouteSegments": {
     "dashboard": "Dashboard",
     "account-management": "Accountbeheer",

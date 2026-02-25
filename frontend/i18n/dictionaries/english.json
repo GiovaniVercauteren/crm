@@ -32,6 +32,16 @@
     "haveAccount": "Already have an account?",
     "login": "Login"
   },
+  "ProfilePage": {
+    "title": "Your Profile",
+    "description": "Manage your account information and settings.",
+    "firstNameLabel": "First Name",
+    "lastNameLabel": "Last Name",
+    "emailLabel": "Email Address",
+    "updateButton": "Update Profile",
+    "emailVerifiedLabel": "Verified",
+    "emailNotVerifiedLabel": "Unverified"
+  },
   "RouteSegments": {
     "dashboard": "Dashboard",
     "account-management": "Account Management",

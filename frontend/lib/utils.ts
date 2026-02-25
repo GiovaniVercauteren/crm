@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const handleError = async (error: unknown) => {
+export const handleError = async (error: unknown): Promise<string> => {
   if (isHTTPError(error)) {
     try {
       const errorData = await error.response.json();
@@ -26,4 +26,10 @@ export const handleError = async (error: unknown) => {
     return error.message;
   }
   return "An unknown error occurred.";
+};
+
+export const throwServerActionError = async (
+  error: unknown,
+): Promise<never> => {
+  throw new Error(await handleError(error));
 };
