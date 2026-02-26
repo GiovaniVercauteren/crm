@@ -85,7 +85,9 @@ export default function MainSidebar({
           </div>
         </SidebarFooter>
       </Sidebar>
-      <main className="py-2 px-4">{children}</main>
+      <main className="relative svh w-full flex flex-col py-2 px-4">
+        {children}
+      </main>
     </SidebarProvider>
   );
 }
