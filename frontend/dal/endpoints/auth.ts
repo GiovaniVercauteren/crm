@@ -26,8 +26,8 @@ export const updateToken = async () => {
   return accessToken;
 };
 
-export const sendVerificationEmail = async () => {
-  await api.post("auth/send-verification-email");
+export const sendVerificationEmail = async (): Promise<boolean> => {
+  return await api.post<boolean>("auth/send-verification-email").json();
 };
 
 export const verifyEmail = async (

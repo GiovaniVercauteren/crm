@@ -27,8 +27,7 @@ export async function updateAccountAction(data: UpdateUserDto) {
 
 export async function sendVerificationEmailAction() {
   try {
-    await sendVerificationEmail();
-    return true;
+    return await sendVerificationEmail();
   } catch (error) {
     await throwServerActionError(error);
   }

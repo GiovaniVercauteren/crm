@@ -169,7 +169,7 @@ export class AuthService {
   async sendVerificationEmail(user: {
     id: number;
     email: string;
-  }): Promise<void> {
+  }): Promise<boolean> {
     const { rawToken } = await this.generateVerificationString(
       user.id,
       user.email,
@@ -177,17 +177,12 @@ export class AuthService {
 
     const verificationLink = `${process.env.FRONTEND_BASE_URL}/verify?userId=${user.id}&email=${encodeURIComponent(user.email)}&token=${rawToken}`;
 
-    console.log(
-      `Verification token for user ${user.email}: ${verificationLink}`,
-    );
     await this.mailService.sendTemplatedMail(
       user.email,
       'Verify your email address',
       'email-verification',
       { verificationLink },
     );
-    // Here you would send the email containing the rawToken to the user.
-    // The email should include a link to the frontend that will call the verify-email endpoint with the userId, email, and rawToken.
-    // For example: https://your-frontend.com/verify-email?userId=123&email=user%40example.com&token=rawToken
+    return true;
   }
 }

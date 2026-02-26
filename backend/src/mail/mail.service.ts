@@ -16,7 +16,7 @@ export class MailService {
     subject: string,
     text: string,
     html?: string,
-  ): Promise<void> {
+  ): Promise<boolean> {
     try {
       await this.transporter.sendMail({
         from: '"Oasezorg" <noreply@vercauteren.io>',
@@ -25,8 +25,8 @@ export class MailService {
         text,
         html,
       });
-    } catch (error) {
-      console.error('Error sending email:', error);
+      return true;
+    } catch {
       throw new HttpException('Error sending email', 500);
     }
   }
@@ -36,13 +36,12 @@ export class MailService {
     subject: string,
     templateName: string,
     context: Record<string, any>,
-  ): Promise<void> {
+  ): Promise<boolean> {
     try {
       const template = await loadTemplate(templateName);
       const html = template(context);
-      await this.sendMail(to, subject, '', html);
-    } catch (error) {
-      console.error('Error sending templated email:', error);
+      return await this.sendMail(to, subject, '', html);
+    } catch {
       throw new HttpException('Error sending templated email', 500);
     }
   }

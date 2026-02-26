@@ -55,12 +55,11 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('send-verification-email')
-  async sendVerificationEmail(@User() user: UserEntity): Promise<void> {
+  async sendVerificationEmail(@User() user: UserEntity): Promise<boolean> {
     try {
-      await this.authService.sendVerificationEmail(user);
+      return await this.authService.sendVerificationEmail(user);
     } catch {
-      // If sending the email fails, we don't want to throw an error to the client
-      // as this is not critical for the user experience. We can log the error internally if needed.
+      return false;
     }
   }
 

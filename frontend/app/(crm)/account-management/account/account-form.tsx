@@ -47,10 +47,14 @@ export default function AccountForm({ user }: { user: UserEntity }) {
 
   async function handleSendVerificationEmail() {
     try {
-      await sendVerificationEmailAction();
-      toast.success("Verification email sent successfully");
-    } catch (error) {
-      toast.error(await handleError(error));
+      const success = await sendVerificationEmailAction();
+      if (success) {
+        toast.success("Verification email sent successfully");
+      } else {
+        toast.error("Failed to send verification email");
+      }
+    } catch {
+      toast.error("Failed to send verification email");
     }
   }
 
