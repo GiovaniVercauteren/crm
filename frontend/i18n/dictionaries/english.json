@@ -49,6 +49,7 @@
     "updateButton": "Update Account",
     "emailVerifiedLabel": "Verified",
     "emailNotVerifiedLabel": "Unverified",
-    "save": "Save"
+    "save": "Save",
+    "verifyEmailButton": "Send Verification Email"
   }
 }

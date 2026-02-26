@@ -49,6 +49,7 @@
     "updateButton": "Account bijwerken",
     "emailVerifiedLabel": "Geverifieerd",
     "emailNotVerifiedLabel": "Ongeverifieerd",
-    "save": "Opslaan"
+    "save": "Opslaan",
+    "verifyEmailButton": "Verificatie-e-mail verzenden"
   }
 }

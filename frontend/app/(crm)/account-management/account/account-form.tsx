@@ -16,7 +16,7 @@ import { BadgeCheck, BadgeX } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { zUpdateUserDto } from "@/lib/client/zod.gen";
-import { updateAccountAction } from "./actions";
+import { sendVerificationEmailAction, updateAccountAction } from "./actions";
 import { handleError } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -42,6 +42,15 @@ export default function AccountForm({ user }: { user: UserEntity }) {
       form.setError("root.server", {
         message: await handleError(error),
       });
+    }
+  }
+
+  async function handleSendVerificationEmail() {
+    try {
+      await sendVerificationEmailAction();
+      toast.success("Verification email sent successfully");
+    } catch (error) {
+      toast.error(await handleError(error));
     }
   }
 
@@ -85,7 +94,7 @@ export default function AccountForm({ user }: { user: UserEntity }) {
             <FieldLabel>
               {t("emailLabel")}
               {user.isVerified ? (
-                <Badge className="bg-green-700 dark:bg-green-800">
+                <Badge className="bg-green-700 dark:bg-green-800 text-white">
                   <BadgeCheck className="me-1" size={16} />
                   {t("emailVerifiedLabel")}
                 </Badge>
@@ -97,6 +106,15 @@ export default function AccountForm({ user }: { user: UserEntity }) {
               )}
             </FieldLabel>
             <Input value={user.email} disabled />
+            {!user.isVerified && (
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleSendVerificationEmail}
+              >
+                {t("verifyEmailButton")}
+              </Button>
+            )}
           </Field>
           {form.formState.errors.root?.server && (
             <FieldError>{form.formState.errors.root.server.message}</FieldError>

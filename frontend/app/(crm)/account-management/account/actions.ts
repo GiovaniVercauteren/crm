@@ -1,7 +1,8 @@
 "use server";
 
+import { updateAccessTokenAction } from "@/app/_actions/update-token.action";
 import { getAccount, updateAccount } from "@/dal/endpoints/account";
-import { getCurrentUser } from "@/dal/endpoints/auth";
+import { sendVerificationEmail } from "@/dal/endpoints/auth";
 import { UpdateUserDto } from "@/lib/client";
 import { throwServerActionError } from "@/lib/utils";
 
@@ -17,7 +18,17 @@ export async function fetchAccountAction() {
 export async function updateAccountAction(data: UpdateUserDto) {
   try {
     const updatedUser = await updateAccount(data);
+    await updateAccessTokenAction();
     return updatedUser;
+  } catch (error) {
+    await throwServerActionError(error);
+  }
+}
+
+export async function sendVerificationEmailAction() {
+  try {
+    await sendVerificationEmail();
+    return true;
   } catch (error) {
     await throwServerActionError(error);
   }

@@ -33,6 +33,15 @@ export class AuthController {
     await this.authService.signUp(signUpDto);
   }
 
+  @HttpCode(HttpStatus.OK)
+  @Post('update-token')
+  async updateToken(@User() user: UserEntity): Promise<AccessToken> {
+    const accessToken: AccessToken = await this.authService.updateToken(
+      user.id,
+    );
+    return accessToken;
+  }
+
   @Public()
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post('sign-out')
@@ -62,8 +71,8 @@ export class AuthController {
     @Body('userId') userId: number,
     @Body('email') email: string,
     @Body('token') token: string,
-  ): Promise<{ success: boolean }> {
+  ): Promise<boolean> {
     const success = await this.authService.verifyUser(userId, email, token);
-    return { success };
+    return success;
   }
 }

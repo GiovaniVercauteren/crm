@@ -58,6 +58,19 @@ export type SignUpResponses = {
     201: unknown;
 };
 
+export type UpdateTokenData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auth/update-token';
+};
+
+export type UpdateTokenResponses = {
+    200: string;
+};
+
+export type UpdateTokenResponse = UpdateTokenResponses[keyof UpdateTokenResponses];
+
 export type SignOutData = {
     body?: never;
     path?: never;

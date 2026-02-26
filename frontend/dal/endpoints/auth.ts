@@ -20,3 +20,24 @@ export const getCurrentUser = async () => {
   const user = await api.get<UserEntity>("auth/me").json();
   return user;
 };
+
+export const updateToken = async () => {
+  const accessToken = await api.post<string>("auth/update-token").text();
+  return accessToken;
+};
+
+export const sendVerificationEmail = async () => {
+  await api.post("auth/send-verification-email");
+};
+
+export const verifyEmail = async (
+  userId: number,
+  email: string,
+  token: string,
+): Promise<boolean> => {
+  return await api
+    .post<boolean>("auth/verify-email", {
+      json: { userId, email, token },
+    })
+    .json();
+};

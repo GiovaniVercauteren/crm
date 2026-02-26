@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { isAdmin, isAuthenticated } from "./lib/auth";
 
 // Only allow access to public routes without authentication
-const publicRoutes = ["/login", "/signup", "/forgot-password"];
+const publicRoutes = ["/login", "/signup", "/forgot-password", "/verify"];
 const adminRoutePrefix = "/admin";
 
 export default async function proxy(req: NextRequest) {

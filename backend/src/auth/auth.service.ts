@@ -52,6 +52,28 @@ export class AuthService {
     return await this.jwtService.signAsync<JwtCustomPayload>(payload);
   }
 
+  async updateToken(userId: number): Promise<AccessToken> {
+    const user = await this.userService.findOneById(userId);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    if (user.isBlocked) {
+      throw new UnauthorizedException('Account is blocked');
+    }
+
+    const payload: JwtCustomPayload = {
+      email: user.email,
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: user.role,
+      isVerified: user.isVerified,
+      isBlocked: user.isBlocked,
+    };
+
+    return await this.jwtService.signAsync<JwtCustomPayload>(payload);
+  }
+
   async signUp(signUpDto: SignUpDto): Promise<void> {
     if (signUpDto.password !== signUpDto.confirmPassword) {
       throw new HttpException('Passwords do not match', HttpStatus.BAD_REQUEST);
@@ -151,7 +173,11 @@ export class AuthService {
       user.email,
     );
 
-    console.log(`Verification token for user ${user.email}: ${rawToken}`);
+    const verificationLink = `${process.env.FRONTEND_BASE_URL}/verify?userId=${user.id}&email=${encodeURIComponent(user.email)}&token=${rawToken}`;
+
+    console.log(
+      `Verification token for user ${user.email}: ${verificationLink}`,
+    );
     // Here you would send the email containing the rawToken to the user.
     // The email should include a link to the frontend that will call the verify-email endpoint with the userId, email, and rawToken.
     // For example: https://your-frontend.com/verify-email?userId=123&email=user%40example.com&token=rawToken

@@ -46,6 +46,14 @@ export const zSignUpData = z.object({
     query: z.optional(z.never())
 });
 
+export const zUpdateTokenData = z.object({
+    body: z.optional(z.never()),
+    path: z.optional(z.never()),
+    query: z.optional(z.never())
+});
+
+export const zUpdateTokenResponse = z.string();
+
 export const zSignOutData = z.object({
     body: z.optional(z.never()),
     path: z.optional(z.never()),
