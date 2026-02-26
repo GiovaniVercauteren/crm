@@ -17,14 +17,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": [
@@ -62,14 +55,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": [
@@ -97,14 +83,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserEntity"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": [
@@ -132,18 +111,59 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": [
           "Auth"
+        ]
+      }
+    },
+    "/mail/send": {
+      "post": {
+        "operationId": "sendMail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMailDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mail"
+        ]
+      }
+    },
+    "/mail/send-templated": {
+      "post": {
+        "operationId": "sendTemplatedMail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendTemplatedMailDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mail"
         ]
       }
     },
@@ -153,14 +173,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserEntity"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": [
@@ -182,14 +195,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserEntity"
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": [
@@ -210,117 +216,23 @@
     "schemas": {
       "SignInDto": {
         "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "password": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "email",
-          "password"
-        ]
+        "properties": {}
       },
       "SignUpDto": {
         "type": "object",
-        "properties": {
-          "firstName": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 255
-          },
-          "lastName": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 255
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "password": {
-            "type": "string"
-          },
-          "confirmPassword": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "firstName",
-          "lastName",
-          "email",
-          "password",
-          "confirmPassword"
-        ]
+        "properties": {}
       },
-      "Role": {
-        "type": "string",
-        "enum": [
-          "admin",
-          "user"
-        ]
-      },
-      "UserEntity": {
+      "SendMailDto": {
         "type": "object",
-        "properties": {
-          "role": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Role"
-              }
-            ]
-          },
-          "id": {
-            "type": "number"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "firstName": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 255
-          },
-          "lastName": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 255
-          },
-          "isVerified": {
-            "type": "boolean"
-          },
-          "isBlocked": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "role",
-          "id",
-          "email",
-          "firstName",
-          "lastName",
-          "isVerified",
-          "isBlocked"
-        ]
+        "properties": {}
+      },
+      "SendTemplatedMailDto": {
+        "type": "object",
+        "properties": {}
       },
       "UpdateUserDto": {
         "type": "object",
-        "properties": {
-          "firstName": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 255
-          },
-          "lastName": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 255
-          }
-        }
+        "properties": {}
       }
     }
   }

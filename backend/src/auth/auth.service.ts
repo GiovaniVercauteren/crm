@@ -17,6 +17,7 @@ import { DrizzleService } from 'src/database/drizzle.service';
 import { databaseSchema } from 'src/database/database-schema';
 import { eq } from 'drizzle-orm/sql/expressions/conditions';
 import { and } from 'drizzle-orm';
+import { MailService } from 'src/mail/mail.service';
 
 const VERIFICATION_TOKEN_EXPIRATION_HOURS = 24;
 const VERIFICATION_HASH_METHOD = 'sha256';
@@ -24,9 +25,10 @@ const VERIFICATION_HASH_METHOD = 'sha256';
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UsersService,
-    private jwtService: JwtService,
+    private readonly userService: UsersService,
+    private readonly jwtService: JwtService,
     private readonly drizzleService: DrizzleService,
+    private readonly mailService: MailService,
   ) {}
 
   async signIn(signInDto: SignInDto): Promise<AccessToken> {
@@ -177,6 +179,12 @@ export class AuthService {
 
     console.log(
       `Verification token for user ${user.email}: ${verificationLink}`,
+    );
+    await this.mailService.sendTemplatedMail(
+      user.email,
+      'Verify your email address',
+      'email-verification',
+      { verificationLink },
     );
     // Here you would send the email containing the rawToken to the user.
     // The email should include a link to the frontend that will call the verify-email endpoint with the userId, email, and rawToken.
