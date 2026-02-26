@@ -69,4 +69,4 @@ npx drizzle-kit migrate
 
 echo "Starting NestJS application"
 # 'exec' makes the node process PID 1, which is better for handling Linux signals (like shutdown)
-exec node dist/src/main.js
+exec node dist/main.js
