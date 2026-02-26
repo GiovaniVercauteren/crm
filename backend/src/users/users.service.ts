@@ -70,7 +70,7 @@ export class UsersService {
   async markUserEmailAsVerified(id: number, email: string): Promise<boolean> {
     const updatedUserId: { updatedId: number }[] = await this.drizzleService.db
       .update(databaseSchema.users)
-      .set({ isVerified: true })
+      .set({ isVerified: true, verifiedAt: new Date() })
       .where(
         and(
           eq(databaseSchema.users.id, id),

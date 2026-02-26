@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsEmail, IsStrongPassword, Length } from 'class-validator';
 import { IsEqualTo } from 'src/decorators/validation/is-equal-to.decorator';
 
@@ -11,6 +12,7 @@ export class SignUpDto {
   readonly lastName: string;
 
   @IsEmail(undefined, { message: 'Invalid email address' })
+  @Transform(({ value }: { value: string }) => value.trim().toLowerCase())
   readonly email: string;
 
   @IsStrongPassword(undefined, { message: 'Password is not strong enough' })
