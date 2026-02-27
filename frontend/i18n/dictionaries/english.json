@@ -10,7 +10,8 @@
     "settings": "Settings",
     "account": "Account",
     "admin": "Admin",
-    "user-management": "User Management"
+    "user-management": "User Management",
+    "privacy-policy": "Privacy Policy"
   },
   "NotFound": {
     "title": "Page Not Found",
@@ -51,5 +52,19 @@
     "emailNotVerifiedLabel": "Unverified",
     "save": "Save",
     "verifyEmailButton": "Send Verification Email"
+  },
+  "PrivacyPolicyPage": {
+    "title": "Privacy Policy",
+    "description": "At Oasezorg, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your personal information when you use our CRM application.",
+    "informationWeCollect": "Information We Collect",
+    "informationWeCollectDescription": "We may collect personal information such as your name, email address, and usage data when you interact with our application. We use this information to provide and improve our services.",
+    "howWeUseInformation": "How We Use Your Information",
+    "howWeUseInformationDescription": "We use your information to personalize your experience, communicate with you, and improve our services. We do not sell your personal information to third parties.",
+    "dataSecurity": "Data Security",
+    "dataSecurityDescription": "We implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction.",
+    "yourChoices": "Your Choices",
+    "yourChoicesDescription": "You have the right to access, update, or delete your personal information. You can also opt-out of receiving promotional communications from us.",
+    "contactUs": "Contact Us",
+    "contactUsDescription": "If you have any questions or concerns about our privacy practices, please contact us."
   }
 }

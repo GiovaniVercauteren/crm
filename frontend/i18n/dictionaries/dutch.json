@@ -10,7 +10,8 @@
     "settings": "Instellingen",
     "account": "Account",
     "admin": "Beheer",
-    "user-management": "Gebruikersbeheer"
+    "user-management": "Gebruikersbeheer",
+    "privacy-policy": "Privacybeleid"
   },
   "NotFound": {
     "title": "Pagina niet gevonden",
@@ -51,5 +52,19 @@
     "emailNotVerifiedLabel": "Ongeverifieerd",
     "save": "Opslaan",
     "verifyEmailButton": "Verificatie-e-mail verzenden"
+  },
+  "PrivacyPolicyPage": {
+    "title": "Privacybeleid",
+    "description": "Bij Oasezorg zijn we toegewijd aan het beschermen van uw privacy. Dit Privacybeleid legt uit hoe we uw persoonlijke informatie verzamelen, gebruiken en beveiligen wanneer u onze CRM-toepassing gebruikt.",
+    "informationWeCollect": "Informatie die we verzamelen",
+    "informationWeCollectDescription": "We kunnen persoonlijke informatie verzamelen, zoals uw naam, e-mailadres en gebruiksgegevens wanneer u interactie heeft met onze toepassing. We gebruiken deze informatie om onze diensten te leveren en te verbeteren.",
+    "howWeUseInformation": "Hoe we uw informatie gebruiken",
+    "howWeUseInformationDescription": "We gebruiken uw informatie om uw ervaring te personaliseren, met u te communiceren en onze diensten te verbeteren. We verkopen uw persoonlijke informatie niet aan derden.",
+    "dataSecurity": "Gegevensbeveiliging",
+    "dataSecurityDescription": "We implementeren passende beveiligingsmaatregelen om uw persoonlijke informatie te beschermen tegen ongeoorloofde toegang, wijziging, openbaarmaking of vernietiging.",
+    "yourChoices": "Uw keuzes",
+    "yourChoicesDescription": "U heeft het recht om toegang te krijgen tot, bij te werken of uw persoonlijke informatie te verwijderen. U kunt ook afzien van het ontvangen van promotionele communicatie van ons.",
+    "contactUs": "Neem contact met ons op",
+    "contactUsDescription": "Als u vragen of zorgen heeft over ons privacybeleid, neem dan contact met ons op."
   }
 }
