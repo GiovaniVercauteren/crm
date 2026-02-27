@@ -19,7 +19,7 @@ import { zSignInDto } from "@/lib/client/zod.gen";
 import { SignInDto } from "@/lib/client";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { handleError } from "@/lib/utils";
+import { errorHandledFormSubmit } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
@@ -34,13 +34,9 @@ export default function LoginForm() {
   const router = useRouter();
 
   async function onSubmit(data: SignInDto) {
-    try {
-      await loginAction(data);
+    const { success } = await errorHandledFormSubmit(loginAction, data, form);
+    if (success) {
       router.push("/");
-    } catch (error) {
-      form.setError("root.server", {
-        message: await handleError(error),
-      });
     }
   }
 

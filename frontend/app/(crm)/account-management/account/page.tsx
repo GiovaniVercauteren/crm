@@ -12,7 +12,7 @@ export default function AccountPage() {
 
   function fetchAccount() {
     startTransition(async () => {
-      const data = await fetchAccountAction();
+      const { data } = await fetchAccountAction();
       setProfile(data);
     });
   }

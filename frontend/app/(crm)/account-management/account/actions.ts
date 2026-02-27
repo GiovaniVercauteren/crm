@@ -3,32 +3,38 @@
 import { updateAccessTokenAction } from "@/app/_actions/update-token.action";
 import { getAccount, updateAccount } from "@/dal/endpoints/account";
 import { sendVerificationEmail } from "@/dal/endpoints/auth";
-import { UpdateUserDto } from "@/lib/client";
-import { throwServerActionError } from "@/lib/utils";
+import { UpdateUserDto, UserEntity } from "@/lib/client";
+import { ServerActionResult } from "@/lib/types";
+import { generateErrorMessage } from "@/lib/utils";
 
-export async function fetchAccountAction() {
+export async function fetchAccountAction(): Promise<
+  ServerActionResult<UserEntity>
+> {
   try {
     const user = await getAccount();
-    return user;
+    return { success: true, data: user };
   } catch (error) {
-    await throwServerActionError(error);
+    return { success: false, error: await generateErrorMessage(error) };
   }
 }
 
-export async function updateAccountAction(data: UpdateUserDto) {
+export async function updateAccountAction(
+  data: UpdateUserDto,
+): Promise<ServerActionResult<UserEntity>> {
   try {
     const updatedUser = await updateAccount(data);
     await updateAccessTokenAction();
-    return updatedUser;
+    return { success: true, data: updatedUser };
   } catch (error) {
-    await throwServerActionError(error);
+    return { success: false, error: await generateErrorMessage(error) };
   }
 }
 
-export async function sendVerificationEmailAction() {
+export async function sendVerificationEmailAction(): Promise<ServerActionResult> {
   try {
-    return await sendVerificationEmail();
+    await sendVerificationEmail();
+    return { success: true };
   } catch (error) {
-    await throwServerActionError(error);
+    return { success: false, error: await generateErrorMessage(error) };
   }
 }

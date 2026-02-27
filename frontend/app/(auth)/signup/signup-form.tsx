@@ -19,7 +19,7 @@ import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { zSignUpDto } from "@/lib/client/zod.gen";
-import { handleError } from "@/lib/utils";
+import { errorHandledFormSubmit, generateErrorMessage } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 export default function SignupForm() {
@@ -42,13 +42,9 @@ export default function SignupForm() {
   const router = useRouter();
 
   async function onSubmit(data: SignUpDto) {
-    try {
-      await signUpAction(data);
+    const { success } = await errorHandledFormSubmit(signUpAction, data, form);
+    if (success) {
       router.push("/login");
-    } catch (error) {
-      form.setError("root.server", {
-        message: await handleError(error),
-      });
     }
   }
 

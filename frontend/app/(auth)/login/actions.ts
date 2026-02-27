@@ -1,12 +1,14 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { SignInDto } from "@/lib/client";
 import { signIn } from "@/dal/endpoints/auth";
 import { cookies } from "next/headers";
-import { throwServerActionError } from "@/lib/utils";
+import { generateErrorMessage } from "@/lib/utils";
+import { ServerActionResult } from "@/lib/types";
 
-export async function loginAction(data: SignInDto) {
+export async function loginAction(
+  data: SignInDto,
+): Promise<ServerActionResult> {
   try {
     const accessToken = await signIn(data);
     const cookieStore = await cookies();
@@ -17,7 +19,8 @@ export async function loginAction(data: SignInDto) {
       path: "/",
       maxAge: Number(process.env.ACCESS_TOKEN_EXPIRATION),
     });
+    return { success: true };
   } catch (error) {
-    await throwServerActionError(error);
+    return { success: false, error: await generateErrorMessage(error) };
   }
 }

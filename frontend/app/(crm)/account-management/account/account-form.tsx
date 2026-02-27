@@ -17,7 +17,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { zUpdateUserDto } from "@/lib/client/zod.gen";
 import { sendVerificationEmailAction, updateAccountAction } from "./actions";
-import { handleError } from "@/lib/utils";
+import { errorHandledFormSubmit, generateErrorMessage } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
@@ -34,27 +34,28 @@ export default function AccountForm({ user }: { user: UserEntity }) {
   const t = useTranslations("AccountPage");
 
   async function onSubmit(data: UpdateUserDto) {
-    try {
-      const updatedUser = await updateAccountAction(data);
-      form.reset(updatedUser);
+    const { success, error } = await errorHandledFormSubmit(
+      updateAccountAction,
+      data,
+      form,
+    );
+    if (success) {
       toast.success("Account updated successfully");
-    } catch (error) {
-      form.setError("root.server", {
-        message: await handleError(error),
-      });
+    } else {
+      toast.error(error || "Failed to update account");
     }
   }
 
   async function handleSendVerificationEmail() {
-    try {
-      const success = await sendVerificationEmailAction();
-      if (success) {
-        toast.success("Verification email sent successfully");
-      } else {
-        toast.error("Failed to send verification email");
-      }
-    } catch {
-      toast.error("Failed to send verification email");
+    const { success, error } = await errorHandledFormSubmit(
+      sendVerificationEmailAction,
+      undefined,
+      form,
+    );
+    if (success) {
+      toast.success("Verification email sent successfully");
+    } else {
+      toast.error(error || "Failed to send verification email");
     }
   }
 
